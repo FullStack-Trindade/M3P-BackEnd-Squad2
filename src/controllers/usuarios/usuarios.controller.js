@@ -88,4 +88,31 @@ const buscarUsuarios = async (request, response) => {
   }
 };
 
-module.exports = { criarUsuario, atualizarUsuario, buscarUsuarios };
+const deletarUsuario = async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const usuarioExistente = await Usuario.findByPk(id);
+
+    if (!usuarioExistente) {
+      return response
+        .status(404)
+        .json({ message: "Usuário não foi encontrado" });
+    }
+
+    await Usuario.destroy({ where: { usuario_id: id } });
+    response.status(200).json({ message: "Usuário deletado com sucesso" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({
+      message: "Não foi possível processar a solicitação",
+    });
+  }
+};
+
+module.exports = {
+  criarUsuario,
+  atualizarUsuario,
+  buscarUsuarios,
+  deletarUsuario,
+};
