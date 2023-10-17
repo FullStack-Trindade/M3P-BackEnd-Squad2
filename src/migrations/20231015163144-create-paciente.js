@@ -63,9 +63,11 @@ module.exports = {
       },
       lista_alergias: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       lista_cuidados: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       nome_convenio: {
         type: Sequelize.STRING,
@@ -76,7 +78,7 @@ module.exports = {
         allowNull: true,
       },
       validade_convenio: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: true,
       },
       status: {

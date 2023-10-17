@@ -65,9 +65,11 @@ const Paciente = conexao.define("paciente", {
   },
   lista_alergias: {
     type: Sequelize.STRING,
+    allowNull: true,
   },
   lista_cuidados: {
     type: Sequelize.STRING,
+    allowNull: true,
   },
   nome_convenio: {
     type: Sequelize.STRING,
@@ -78,7 +80,7 @@ const Paciente = conexao.define("paciente", {
     allowNull: true,
   },
   validade_convenio: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     allowNull: true,
   },
   status: {
