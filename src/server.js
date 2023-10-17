@@ -1,6 +1,7 @@
 require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
+const { exameRoutes } = require("./routes/exames.routes");
 const server = express();
 
 server.use(
@@ -10,6 +11,7 @@ server.use(
 );
 
 server.use(express.json());
+server.use(exameRoutes);
 
 
 server.get("/", (request, response) => {
