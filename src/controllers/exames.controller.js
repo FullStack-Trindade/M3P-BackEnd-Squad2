@@ -1,6 +1,5 @@
 const { Exame } = require("../models/exames.model");
 
-// TODO validacao 400
 const criarExame = async (request, response) => {
   try {
     const {

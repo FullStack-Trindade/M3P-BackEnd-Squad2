@@ -14,14 +14,10 @@ const Exame = sequelize.define(
       type: STRING(64),
       allowNull: false,
     },
-    dataExame: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    horaExame: {
-      type: DataTypes.TIME(6),
-      allowNull: false,
+    dataHoraExame: {
+      type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
+      allowNull: false,
     },
     tipoExame: {
       type: STRING(32),

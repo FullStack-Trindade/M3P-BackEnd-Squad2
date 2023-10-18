@@ -15,14 +15,10 @@ module.exports = {
         type: Sequelize.STRING(64),
         allowNull: false,
       },
-      data_exame: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-      hora_exame: {
-        type: DataTypes.TIME(6),
-        allowNull: false,
+      data_hora_exame: {
+        type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+        allowNull: false,
       },
       tipo_exame: {
         type: Sequelize.STRING(32),
