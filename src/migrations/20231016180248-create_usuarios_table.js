@@ -21,6 +21,7 @@ module.exports = {
       cpf: {
         type: Sequelize.STRING(11),
         allowNull: false,
+        unique: true,
       },
       telefone: {
         type: Sequelize.STRING(12),

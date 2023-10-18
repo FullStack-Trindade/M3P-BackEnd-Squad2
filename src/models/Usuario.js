@@ -21,6 +21,7 @@ const Usuario = sequelize.define(
     cpf: {
       type: STRING(11),
       allowNull: false,
+      unique: true,
     },
     telefone: {
       type: STRING(12),
