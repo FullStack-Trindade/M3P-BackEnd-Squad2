@@ -36,16 +36,7 @@ const atualizarUsuario = async (request, response) => {
   try {
     const { id } = request.params;
 
-    const {
-      nomeCompleto,
-      genero,
-      cpf,
-      telefone,
-      email,
-      senha,
-      tipo,
-      statusSistema,
-    } = request.body;
+    const { nomeCompleto, genero, telefone, senha, tipo } = request.body;
 
     const usuarioExistente = await Usuario.findByPk(id);
 
@@ -58,12 +49,9 @@ const atualizarUsuario = async (request, response) => {
     const data = {
       nomeCompleto: nomeCompleto || usuarioExistente.nomeCompleto,
       genero: genero || usuarioExistente.genero,
-      cpf: cpf || usuarioExistente.cpf,
       telefone: telefone || usuarioExistente.telefone,
-      email: email || usuarioExistente.email,
       senha: senha || usuarioExistente.senha,
       tipo: tipo || usuarioExistente.tipo,
-      statusSistema: statusSistema || usuarioExistente.statusSistema,
     };
 
     await Usuario.update(data, { where: { usuario_id: id } });
