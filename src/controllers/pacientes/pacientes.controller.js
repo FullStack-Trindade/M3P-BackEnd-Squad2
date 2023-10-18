@@ -1,26 +1,23 @@
-const Paciente = require('../../models/paciente');
-const Endereco = require('../../models/endereco');
-const { Op } = require('sequelize');
+const Paciente = require("../../models/paciente");
+const Endereco = require("../../models/endereco");
+const { Op } = require("sequelize");
 
 
+// Função para cadsatrar um paciente
 const cadastraPaciente = async (req, res) => {
   const novoPaciente = req.body;
   const enderecoData = novoPaciente.endereco;
 
   try {
-
-    // Verifica se o CPF ou email já estão cadastrados Op do sequelize
+    // Verifica se o CPF ou email já estão cadastrados o model-querying-basics Op do sequelize
     const pacienteExistente = await Paciente.findOne({
       where: {
-        [Op.or]: [
-          { cpf: novoPaciente.cpf },
-          { email: novoPaciente.email },
-        ],
+        [Op.or]: [{ cpf: novoPaciente.cpf }, { email: novoPaciente.email }],
       },
     });
 
     if (pacienteExistente) {
-      return res.status(409).json({ message: 'CPF ou email já cadastrados' });
+      return res.status(409).json({ message: "CPF ou email já cadastrados" });
     }
 
     // Cria endereço na tabela de endereços
@@ -37,11 +34,12 @@ const cadastraPaciente = async (req, res) => {
 
     return res.status(201).json(paciente);
   } catch (error) {
-    console.error('Erro ao cadastrar paciente:', error);
-    return res.status(500).json({ message: 'Erro ao cadastrar paciente', error });
+    console.error("Erro ao cadastrar paciente:", error);
+    return res
+      .status(500)
+      .json({ message: "Erro ao cadastrar paciente", error });
   }
 };
-
 
 // Função para atualizar um paciente por ID
 const atualizaPaciente = async (req, res) => {
@@ -50,43 +48,62 @@ const atualizaPaciente = async (req, res) => {
 
   try {
     // Verifica se o paciente com o ID especificado existe
-    const pacienteExistente = await Paciente.findByPk(pacienteId);
+    const pacienteExistente = await Paciente.findByPk(pacienteId, {
+      include: [{ model: Endereco }],
+    });
+
     if (!pacienteExistente) {
-      return res.status(404).json({ message: 'Paciente não encontrado' });
+      return res.status(400).json({ message: "Paciente não encontrado" });
     }
 
-    //adicionar outras validacoes referentes ao update: a fazer ainda
+    // Validação: Certifique-se de que CPF e RG não estejam presentes nos dados atualizados
+    if (dadosAtualizados.cpf || dadosAtualizados.rg) {
+      return res.status(400).json({
+        message: "Não é permitido atualizar CPF ou RG",
+      });
+    }
 
     // Atualize o paciente
     await Paciente.update(dadosAtualizados, {
       where: { id: pacienteId },
     });
 
-    return res.status(200).json({ message: 'Paciente atualizado com sucesso' });
+    // Atualize os campos do endereço associado, se fornecidos
+    if (dadosAtualizados.endereco) {
+      await pacienteExistente.endereco.update(dadosAtualizados.endereco);
+    }
+
+    return res.status(200).json({ message: "Paciente atualizado com sucesso" });
   } catch (error) {
-    console.error('Erro ao atualizar paciente:', error);
-    return res.status(500).json({ message: 'Erro ao atualizar paciente', error });
+    console.error("Erro ao atualizar paciente:", error);
+    return res
+      .status(500)
+      .json({ message: "Erro ao atualizar paciente", error });
   }
 };
 
 // Função para listar todos os pacientes
 const listaPacientes = async (req, res) => {
   try {
-   // Busque todos os pacientes incluindo o modelo Endereco relacionado, mas excluindo os campos createdAt e updatedAt
-   const pacientes = await Paciente.findAll({
-    attributes: { exclude: ['createdAt', 'updatedAt', 'created_at', 'updated_at'] },
-    include: [
-      {
-        model: Endereco,
-        attributes: { exclude: ['createdAt', 'updatedAt', 'created_at', 'updated_at'] }
+    // Busque todos os pacientes incluindo o modelo Endereco relacionado, mas excluindo os campos createdAt e updatedAt
+    const pacientes = await Paciente.findAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "created_at", "updated_at"],
       },
-    ],
-  });
+      include: [
+        {
+          model: Endereco,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "created_at", "updated_at"],
+          },
+        },
+      ],
+    });
 
     return res.status(200).json(pacientes);
   } catch (error) {
-    console.error('Erro ao listar pacientes:', error);
-    return res.status(500).json({ message: 'Erro ao listar pacientes', error });
+    console.error("Erro ao listar pacientes:", error);
+    return res.status(500).json({ message: "Erro ao listar pacientes", error });
   }
 };
 
@@ -97,23 +114,29 @@ const consultaPacientePorId = async (req, res) => {
   try {
     // Consulte o paciente pelo ID, incluindo o modelo Endereco relacionado, mas excluindo os campos createdAt e updatedAt
     const paciente = await Paciente.findByPk(pacienteId, {
-      attributes: { exclude: ['createdAt', 'updatedAt', 'created_at', 'updated_at'] },
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "created_at", "updated_at"],
+      },
       include: [
         {
           model: Endereco,
-          attributes: { exclude: ['createdAt', 'updatedAt', 'created_at', 'updated_at'] }
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "created_at", "updated_at"],
+          },
         },
       ],
     });
 
     if (!paciente) {
-      return res.status(404).json({ message: 'Paciente não encontrado' });
+      return res.status(404).json({ message: "Paciente não encontrado" });
     }
 
     return res.status(200).json(paciente);
   } catch (error) {
-    console.error('Erro ao consultar paciente por ID:', error);
-    return res.status(500).json({ message: 'Erro ao consultar paciente por ID', error });
+    console.error("Erro ao consultar paciente por ID:", error);
+    return res
+      .status(500)
+      .json({ message: "Erro ao consultar paciente por ID", error });
   }
 };
 
@@ -128,7 +151,7 @@ const excluiPaciente = async (req, res) => {
     });
 
     if (!pacienteExistente) {
-      return res.status(400).json({ message: 'Paciente não encontrado' });
+      return res.status(400).json({ message: "Paciente não encontrado" });
     }
 
     // Exclua o paciente
@@ -141,10 +164,12 @@ const excluiPaciente = async (req, res) => {
       where: { id: pacienteExistente.endereco.id },
     });
 
-    return res.status(202).json({ message: 'Paciente e endereço excluídos com sucesso' });
+    return res
+      .status(202)
+      .json({ message: "Paciente e endereço excluídos com sucesso" });
   } catch (error) {
-    console.error('Erro ao excluir paciente:', error);
-    return res.status(500).json({ message: 'Erro ao excluir paciente', error });
+    console.error("Erro ao excluir paciente:", error);
+    return res.status(500).json({ message: "Erro ao excluir paciente", error });
   }
 };
 

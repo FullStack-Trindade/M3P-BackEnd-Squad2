@@ -9,8 +9,10 @@ const {
   excluiPaciente
 } = require('../controllers/pacientes/pacientes.controller');
 
+const validarNovoPaciente = require('../middlewares/ValidarNovoPaciente');
+
 // Rota para cadastrar um novo paciente
-router.post('/pacientes', cadastraPaciente);
+router.post('/pacientes', validarNovoPaciente, cadastraPaciente);
 
 // Rota para atualizar um paciente por ID
 router.put('/pacientes/:id', atualizaPaciente);
