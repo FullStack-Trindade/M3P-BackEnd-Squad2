@@ -1,3 +1,5 @@
+const { sign } = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { Usuario } = require("../../models/Usuario");
 
 const criarUsuario = async (request, response) => {
@@ -12,6 +14,14 @@ const criarUsuario = async (request, response) => {
       tipo,
       statusSistema,
     } = request.body;
+
+    const payload = request.usuario;
+
+    if (payload.tipo !== "ADMINISTRADOR") {
+      return response.status(403).json({
+        message: "Usuário não tem permissões para acessar este recurso",
+      });
+    }
 
     const usuario = await Usuario.create({
       nomeCompleto,
@@ -35,6 +45,13 @@ const criarUsuario = async (request, response) => {
 const atualizarUsuario = async (request, response) => {
   try {
     const { id } = request.params;
+    const payload = request.usuario;
+
+    if (payload.tipo !== "ADMINISTRADOR") {
+      return response.status(403).json({
+        message: "Usuário não tem permissões para acessar este recurso",
+      });
+    }
 
     const { nomeCompleto, genero, telefone, senha, tipo } = request.body;
 
@@ -66,6 +83,14 @@ const atualizarUsuario = async (request, response) => {
 
 const buscarUsuarios = async (request, response) => {
   try {
+    const payload = request.usuario;
+
+    if (payload.tipo !== "ADMINISTRADOR") {
+      return response.status(403).json({
+        message: "Usuário não tem permissões para acessar este recurso",
+      });
+    }
+
     const usuarios = await Usuario.findAll();
     if (!usuarios) {
       return response
@@ -84,6 +109,13 @@ const buscarUsuarios = async (request, response) => {
 const deletarUsuario = async (request, response) => {
   try {
     const { id } = request.params;
+    const payload = request.usuario;
+
+    if (payload.tipo !== "ADMINISTRADOR") {
+      return response.status(403).json({
+        message: "Usuário não tem permissões para acessar este recurso",
+      });
+    }
 
     const usuarioExistente = await Usuario.findByPk(id);
 
@@ -91,6 +123,12 @@ const deletarUsuario = async (request, response) => {
       return response
         .status(404)
         .json({ message: "Usuário não foi encontrado" });
+    }
+
+    if (payload.usuarioId === id) {
+      return response
+        .status(403)
+        .json({ message: "Não é possível deletar o próprio usuário" });
     }
 
     await Usuario.destroy({ where: { usuario_id: id } });
@@ -103,9 +141,55 @@ const deletarUsuario = async (request, response) => {
   }
 };
 
+const loginUsuario = async (request, response) => {
+  try {
+    const { email, senha } = request.body;
+
+    if (!email || !senha) {
+      return response
+        .status(400)
+        .json({ message: "Os dados do formulário são obrigatórios" });
+    }
+
+    const usuario = await Usuario.findOne({ where: { email } });
+
+    if (!usuario) {
+      return response.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    const senhaValida = bcrypt.compareSync(senha, usuario.senha);
+
+    if (!senhaValida) {
+      return response
+        .status(401)
+        .json({ message: "Email e/ou senha invalidos" });
+    }
+
+    const payload = {
+      usuarioId: usuario.usuarioId,
+      nomeCompleto: usuario.nomeCompleto,
+      email: usuario.email,
+      tipo: usuario.tipo,
+    };
+
+    const token = sign(payload, process.env.APP_SECRET, { expiresIn: "2h" });
+
+    return response.status(200).json({
+      message: `Usuario ${usuario.email} logado com sucesso`,
+      token: token,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Erro ao realizar o login do usuário",
+    });
+  }
+};
+
 module.exports = {
   criarUsuario,
   atualizarUsuario,
   buscarUsuarios,
   deletarUsuario,
+  loginUsuario,
 };
