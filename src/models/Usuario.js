@@ -1,6 +1,6 @@
 const { INTEGER, STRING, ENUM, BOOLEAN } = require("sequelize");
 const { sequelize } = require("../database/conexao");
-
+const { encriptaSenha } = require("../utils/functions");
 const Usuario = sequelize.define(
   "usuarios",
   {
@@ -45,7 +45,14 @@ const Usuario = sequelize.define(
       defaultValue: true,
     },
   },
-  { undescored: true, paranoid: true }
+  {
+    undescored: true,
+    paranoid: true,
+    hooks: {
+      beforeCreate: encriptaSenha,
+      beforeUpdate: encriptaSenha,
+    },
+  }
 );
 
 module.exports = { Usuario };

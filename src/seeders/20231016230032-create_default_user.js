@@ -1,4 +1,5 @@
 "use strict";
+const bcrypt = require("bcrypt");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
         cpf: "22233311144",
         telefone: "48991337783",
         email: "admin@bemlab.com.br",
-        senha: "admin123",
+        senha: bcrypt.hashSync("admin123", bcrypt.genSaltSync(10)),
         tipo: "ADMINISTRADOR",
         status_sistema: true,
         created_at: new Date(),
