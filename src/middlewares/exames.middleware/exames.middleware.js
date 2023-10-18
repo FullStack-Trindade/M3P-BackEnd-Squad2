@@ -1,5 +1,11 @@
 const yup = require("yup");
 
+const data = new Intl.DateTimeFormat("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
 
 const schema = yup.object().shape({
   nomeExame: yup
@@ -7,7 +13,8 @@ const schema = yup.object().shape({
     .required("Nome do exame é obrigatório")
     .min(8, "Nome do exame precisa ter, no mínimo, 8 caracteres")
     .max(64, "Nome do exame precisa ter, no máximo, 64 caracteres"),
-  dataHoraExame: yup.date().default(new Date()), //.toLocaleDateString('pt-BR')
+  dataExame: yup.date().default(new Date()),
+  horaExame: yup.string().default(data),
   tipoExame: yup
     .string()
     .required("Tipo de exame é obrigatório")
