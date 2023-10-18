@@ -10,12 +10,13 @@ const {
 } = require('../controllers/pacientes/pacientes.controller');
 
 const validarNovoPaciente = require('../middlewares/ValidarNovoPaciente');
+const validarAtualizacaoPaciente = require('../middlewares/validarAtualizacaoPaciente');
 
 // Rota para cadastrar um novo paciente
 router.post('/pacientes', validarNovoPaciente, cadastraPaciente);
 
 // Rota para atualizar um paciente por ID
-router.put('/pacientes/:id', atualizaPaciente);
+router.put('/pacientes/:id', validarAtualizacaoPaciente, atualizaPaciente);
 
 // Rota para listar todos os pacientes
 router.get('/pacientes', listaPacientes);

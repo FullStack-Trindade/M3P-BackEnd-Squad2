@@ -128,7 +128,7 @@ const consultaPacientePorId = async (req, res) => {
     });
 
     if (!paciente) {
-      return res.status(404).json({ message: "Paciente não encontrado" });
+      return res.status(400).json({ message: "Paciente não encontrado" });
     }
 
     return res.status(200).json(paciente);
