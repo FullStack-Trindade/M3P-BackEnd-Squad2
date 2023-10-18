@@ -47,7 +47,7 @@ const usuarioSchema = Yup.object().shape({
     .oneOf([true]),
 });
 
-async function validarNovoUsuario(request, response, next) {
+const validarNovoUsuario = async (request, response, next) => {
   try {
     await usuarioSchema.validate(request.body, { abortEarly: false });
     next();
@@ -73,6 +73,6 @@ async function validarNovoUsuario(request, response, next) {
 
     return response.status(400).json(errors);
   }
-}
+};
 
 module.exports = { validarNovoUsuario };
