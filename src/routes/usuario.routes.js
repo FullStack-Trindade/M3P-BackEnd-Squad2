@@ -4,17 +4,25 @@ const {
   atualizarUsuario,
   buscarUsuarios,
   deletarUsuario,
+  loginUsuario,
 } = require("../controllers/usuarios/usuarios.controller");
 const { validarNovoUsuario } = require("../middlewares/validarNovoUsuario");
 const {
   validarAtualizarUsuario,
 } = require("../middlewares/validarAtualizarUsuario");
+const { validarToken } = require("../middlewares/validarToken");
 
 const usuarioRoutes = new Router();
 
-usuarioRoutes.post("/usuarios", validarNovoUsuario, criarUsuario);
-usuarioRoutes.put("/usuarios/:id", validarAtualizarUsuario, atualizarUsuario);
-usuarioRoutes.get("/usuarios", buscarUsuarios);
-usuarioRoutes.delete("/usuarios/:id", deletarUsuario);
+usuarioRoutes.post("/usuarios", validarToken, validarNovoUsuario, criarUsuario);
+usuarioRoutes.put(
+  "/usuarios/:id",
+  validarToken,
+  validarAtualizarUsuario,
+  atualizarUsuario
+);
+usuarioRoutes.get("/usuarios", validarToken, buscarUsuarios);
+usuarioRoutes.delete("/usuarios/:id", validarToken, deletarUsuario);
+usuarioRoutes.post("/usuarios/login", loginUsuario);
 
 module.exports = { usuarioRoutes };
