@@ -31,7 +31,11 @@ const usuarioSchema = Yup.object().shape({
     ),
   email: Yup.string()
     .required("O email é obrigatório!")
-    .email("O email deve ser válido"),
+    .email("O email deve ser válido")
+    .test("unique", "Este usuário já foi cadastrado", async (email) => {
+      const usuario = await Usuario.findOne({ where: { email: email } });
+      return !usuario;
+    }),
   senha: Yup.string()
     .required("A senha é obrigatória!")
     .min(6, "A senha deve conter no mínimo 6 caracteres"),
@@ -56,18 +60,18 @@ const validarNovoUsuario = async (request, response, next) => {
     const errors = error.inner.map((err) => ({
       field: err.path,
       message: err.message,
+      type: err.type,
     }));
 
     //Verificar se o erro é de validação única (cpf já cadastrado)
-    const uniqueError = error.inner.find(
-      (err) => err.path === "cpf" && err.type === "unique"
-    );
+    const uniqueError = errors.find((err) => err.type === "unique");
+
     if (uniqueError) {
-      const index = errors.findIndex((err) => err.field === "cpf");
+      const index = errors.findIndex((err) => err.field === uniqueError.field);
       if (index !== -1) {
         errors.splice(index, 1);
       }
-      errors.push({ message: uniqueError.message });
+      errors.push({ field: uniqueError.field, message: uniqueError.message });
       return response.status(409).json(errors);
     }
 
