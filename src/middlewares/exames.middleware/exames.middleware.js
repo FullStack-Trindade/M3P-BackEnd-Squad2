@@ -7,8 +7,8 @@ const schema = yup.object().shape({
     .required("Nome do exame é obrigatório")
     .min(8, "Nome do exame precisa ter, no mínimo, 8 caracteres")
     .max(64, "Nome do exame precisa ter, no máximo, 64 caracteres"),
-  dataExame: yup.date(),
-  horaExame: yup.string(),
+  dataExame: yup.date().required("O campo 'Data' é obrigatório"),
+  horaExame: yup.string().required("O campo 'Horas' é obrigatório"),
   tipoExame: yup
     .string()
     .required("Tipo de exame é obrigatório")

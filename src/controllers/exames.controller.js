@@ -1,5 +1,11 @@
 const { Exame } = require("../models/exames.model");
 
+const hoje = new Date();
+const hora = hoje.getHours();
+const minutos = hoje.getMinutes();
+const segs = hoje.getSeconds();
+const dataHora = `${hora}:${minutos}:${segs}`;
+
 const criarExame = async (request, response) => {
   try {
     const {
@@ -13,10 +19,11 @@ const criarExame = async (request, response) => {
       statusSistema,
     } = request.body;
 
+
     const exame = await Exame.create({
       nomeExame,
-      dataExame,
-      horaExame,
+      dataExame: dataExame || new Date(),
+      horaExame: horaExame || dataHora,
       tipoExame,
       laboratorio,
       docurl,
@@ -54,12 +61,6 @@ const atualizarExame = async (request, response) => {
       return response.status(400).json({ message: "Exame não foi encontrado" });
     }
 
-    const hoje = new Date();
-    const hora = hoje.getHours();
-    const minutos = hoje.getMinutes();
-    const segs = hoje.getSeconds();
-    const dataHora = `${hora}:${minutos}:${segs}`;
-    
     const data = {
       nomeExame: nomeExame || ExameExistente.nomeExame,
       dataExame: dataExame || new Date(),
