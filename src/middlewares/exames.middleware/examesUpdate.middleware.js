@@ -1,27 +1,20 @@
 const yup = require("yup");
 
-const data = new Intl.DateTimeFormat("pt-BR", {
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
-
 const schema = yup.object().shape({
   nomeExame: yup
     .string()
     .min(8, "Nome do exame precisa ter, no mínimo, 8 caracteres")
     .max(64, "Nome do exame precisa ter, no máximo, 64 caracteres"),
-    dataExame: yup.date().default(new Date()),
-  horaExame: yup.string().default(data),
+    dataExame: yup.date(),
+  horaExame: yup.string(),
   tipoExame: yup
     .string()
-    .min(4, "Tipo de exame precisa ter, no mínimo, 8 caracteres")
-    .max(32, "Tipo de exame precisa ter, no máximo, 64 caracteres"),
+    .min(4, "Tipo de exame precisa ter, no mínimo, 4 caracteres")
+    .max(32, "Tipo de exame precisa ter, no máximo, 32 caracteres"),
   laboratorio: yup
     .string()
-    .min(4, "Laboratório precisa ter, no mínimo, 8 caracteres")
-    .max(32, "Laboratório precisa ter, no máximo, 64 caracteres"),
+    .min(4, "Laboratório precisa ter, no mínimo, 4 caracteres")
+    .max(32, "Laboratório precisa ter, no máximo, 32 caracteres"),
   resultados: yup
     .string()
     .min(16, "Resultados precisam ter, no mínimo, 16 caracteres")

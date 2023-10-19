@@ -54,10 +54,16 @@ const atualizarExame = async (request, response) => {
       return response.status(400).json({ message: "Exame não foi encontrado" });
     }
 
+    const hoje = new Date();
+    const hora = hoje.getHours();
+    const minutos = hoje.getMinutes();
+    const segs = hoje.getSeconds();
+    const dataHora = `${hora}:${minutos}:${segs}`;
+    
     const data = {
       nomeExame: nomeExame || ExameExistente.nomeExame,
-      dataExame: dataExame || ExameExistente.dataExame,
-      horaExame: horaExame || ExameExistente.horaExame,
+      dataExame: dataExame || new Date(),
+      horaExame: horaExame || dataHora,
       tipoExame: tipoExame || ExameExistente.tipoExame,
       laboratorio: laboratorio || ExameExistente.laboratorio,
       docurl: docurl || ExameExistente.docurl,
