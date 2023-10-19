@@ -1,4 +1,4 @@
-const { Exame } = require("../models/exames.model");
+const { Exame } = require("../../models/exames/exames.model");
 
 const hoje = new Date();
 const hora = hoje.getHours();

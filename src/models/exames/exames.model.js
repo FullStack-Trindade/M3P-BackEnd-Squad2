@@ -1,5 +1,5 @@
 const { INTEGER, STRING, BOOLEAN, DataTypes } = require("sequelize");
-const { sequelize } = require("../database/conexao");
+const { sequelize } = require("../../database/conexao");
 
 const Exame = sequelize.define(
   "exames",

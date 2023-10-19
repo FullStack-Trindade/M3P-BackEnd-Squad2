@@ -7,7 +7,7 @@ const {
   buscarExames,
   buscaExame,
   deleteExame
-} = require("../controllers/exames.controller");
+} = require("../controllers/exames/exames.controller");
 
 const exameRoutes = new Router();
 
