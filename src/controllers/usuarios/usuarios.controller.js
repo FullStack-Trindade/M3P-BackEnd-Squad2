@@ -172,7 +172,7 @@ const loginUsuario = async (request, response) => {
       tipo: usuario.tipo,
     };
 
-    const token = sign(payload, process.env.APP_SECRET, { expiresIn: "2h" });
+    const token = sign(payload, process.env.APP_SECRET, { expiresIn: "1d" });
 
     return response.status(200).json({
       message: `Usuario ${usuario.email} logado com sucesso`,
@@ -186,10 +186,49 @@ const loginUsuario = async (request, response) => {
   }
 };
 
+const resetarSenha = async (request, response) => {
+  try {
+    const { email, novaSenha, codigo } = request.body;
+
+    if (!email || !codigo || !novaSenha) {
+      return response
+        .status(400)
+        .json({ message: "Os dados do formulário são obrigatórios" });
+    }
+
+    const usuario = await Usuario.findOne({ where: { email } });
+
+    if (!usuario) {
+      return response.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    if (codigo !== process.env.CODIGO_RESETAR_SENHA) {
+      return response
+        .status(400)
+        .json({ message: "Código para resetar senha inválido" });
+    }
+
+    await Usuario.update(
+      { senha: novaSenha },
+      { where: { email }, individualHooks: true }
+    );
+
+    return response
+      .status(200)
+      .json({ message: "Senha atualizada com sucesso" });
+  } catch (error) {
+    console.error("Erro ao tentar redefinir senha: ", error);
+    return response
+      .status(500)
+      .json({ message: "Ocorreu um erro ao tentar redefinir a senha" });
+  }
+};
+
 module.exports = {
   criarUsuario,
   atualizarUsuario,
   buscarUsuarios,
   deletarUsuario,
   loginUsuario,
+  resetarSenha,
 };

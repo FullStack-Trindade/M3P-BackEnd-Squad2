@@ -5,6 +5,7 @@ const {
   buscarUsuarios,
   deletarUsuario,
   loginUsuario,
+  resetarSenha,
 } = require("../controllers/usuarios/usuarios.controller");
 const { validarNovoUsuario } = require("../middlewares/validarNovoUsuario");
 const {
@@ -24,5 +25,6 @@ usuarioRoutes.put(
 usuarioRoutes.get("/usuarios", validarToken, buscarUsuarios);
 usuarioRoutes.delete("/usuarios/:id", validarToken, deletarUsuario);
 usuarioRoutes.post("/usuarios/login", loginUsuario);
+usuarioRoutes.patch("/usuarios/resetarsenha", resetarSenha);
 
 module.exports = { usuarioRoutes };
