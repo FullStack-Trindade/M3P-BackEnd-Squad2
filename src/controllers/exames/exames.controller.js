@@ -1,4 +1,5 @@
-const { Exame } = require("../../models/exames/exames.model");
+const  Exame  = require("../../models/exames/exames.model");
+const Paciente = require("")
 
 const hoje = new Date();
 const hora = hoje.getHours();
@@ -97,14 +98,16 @@ const buscarExames = async (request, response) => {
 };
 const buscaExame = async (request, response) => {
   try {
-    const exame = await Exame.findOne({
-      where: {
-        nomeExame: request.params.nomeExame,
-      },
-    });
-    if (!exame)
-      return response.status(400).json({ message: "Exame não encontrado" });
-    response.status(200).json({ exame });
+
+    const exame = await Exame.findAll({ include: Paciente.nome_completo })
+
+    if (!exame) {
+      return res.status(400).send({ message: "Exame não encontrado" });
+    }
+
+    return res.status(200).send({ exame }); 
+ 
+  
   } catch (error) {
     console.error(error);
     return response.status(500).json({
