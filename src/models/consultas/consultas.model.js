@@ -1,5 +1,6 @@
 const { INTEGER, STRING, BOOLEAN, DataTypes } = require("sequelize");
 const { sequelize } = require("../../database/conexao");
+const Paciente = require("../paciente");
 
 const Consulta = sequelize.define("consultas",
   {
@@ -42,4 +43,6 @@ const Consulta = sequelize.define("consultas",
   { undescored: true, paranoid: true }
 );
 
-module.exports = { Consulta };
+
+Paciente.belongsTo(Consulta, {foreignKey : 'consulta_paciente_id'})
+module.exports =  Consulta ;

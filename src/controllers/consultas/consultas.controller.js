@@ -1,4 +1,5 @@
-const { Consulta } = require("../../models/consultas/consultas.model");
+const  Consulta  = require("../../models/consultas/consultas.model");
+const Paciente = require("../../models/paciente");
 
 const hoje = new Date();
     const hora = hoje.getHours();
@@ -107,11 +108,7 @@ dados devem ser retornados. */
 
 const buscaConsulta = async (request, response) => {
   try {
-    const consulta = await Consulta.findOne({
-      where: {
-        id: request.params.id,
-      },
-    });
+    const consulta = await Consulta.findAll({ include: Paciente.nome_completo })
     if (!consulta)
       return response.status(400).json({ message: "Consulta não encontrada" });
     response.status(200).json(consulta);
