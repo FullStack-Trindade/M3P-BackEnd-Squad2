@@ -13,7 +13,7 @@ const {
 const consultaRoutes = new Router();
 
 consultaRoutes.post("/consultas", validacaoConsulta, criarConsulta);
-consultaRoutes.put("/consultas/:id", atualizarConsulta);
+consultaRoutes.put("/consultas/:id",validacaoUpdateConsulta, atualizarConsulta);
 //consultaRoutes.get("/consultas", buscarConsultas);
 consultaRoutes.get("/consultas/:id", buscaConsulta);
 consultaRoutes.delete("/consultas/:id", deleteConsulta);
