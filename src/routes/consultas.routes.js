@@ -12,10 +12,10 @@ const {
 
 const consultaRoutes = new Router();
 
-consultaRoutes.post("/api/consultas", validacaoConsulta, criarConsulta);
-consultaRoutes.put("/api/consultas/:id", atualizarConsulta);
-//consultaRoutes.get("/api/consultas", buscarConsultas);
-consultaRoutes.get("/api/consultas/:id", buscaConsulta);
-consultaRoutes.delete("/api/consultas/:id", deleteConsulta);
+consultaRoutes.post("/consultas", validacaoConsulta, criarConsulta);
+consultaRoutes.put("/consultas/:id", atualizarConsulta);
+//consultaRoutes.get("/consultas", buscarConsultas);
+consultaRoutes.get("/consultas/:id", buscaConsulta);
+consultaRoutes.delete("/consultas/:id", deleteConsulta);
 
 module.exports = consultaRoutes ;
