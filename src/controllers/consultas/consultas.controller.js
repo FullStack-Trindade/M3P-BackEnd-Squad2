@@ -1,5 +1,11 @@
 const { Consulta } = require("../../models/consultas/consultas.model");
 
+const hoje = new Date();
+    const hora = hoje.getHours();
+    const minutos = hoje.getMinutes();
+    const segs = hoje.getSeconds();
+    const dataHora = `${hora}:${minutos}:${segs}`;
+
 const criarConsulta = async (request, response) => {
   try {
     const {
@@ -14,8 +20,8 @@ const criarConsulta = async (request, response) => {
 
     const consulta = await Consulta.create({
       motivoConsulta,
-      dataConsulta,
-      horaConsulta,
+      dataConsulta: dataConsulta || new Date(),
+      horaConsulta: horaConsulta || dataHora,
       descricaoProblema,
       medicacao,
       dosagem,
@@ -53,11 +59,7 @@ const atualizarConsulta = async (request, response) => {
         .json({ message: "Consulta não foi encontrado" });
     }
 
-    const hoje = new Date();
-    const hora = hoje.getHours();
-    const minutos = hoje.getMinutes();
-    const segs = hoje.getSeconds();
-    const dataHora = `${hora}:${minutos}:${segs}`;
+    
     
     const data = {
       motivoConsulta: motivoConsulta || consultaExistente.motivoConsulta,
