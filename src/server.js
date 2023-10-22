@@ -15,10 +15,9 @@ server.use(
 server.use(express.json());
 
 //endpoints de paciente
-server.use('/api', pacientesRouter);
+server.use('/api', pacientesRouter,consultaRoutes ,);
 
-//endpoints de consulta
-server.use('/api', consultaRoutes)
+
 
 server.get("/", (request, response) => {
   response.status(200).json({

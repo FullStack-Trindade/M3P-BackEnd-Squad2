@@ -34,15 +34,23 @@ const Consulta = sequelize.define("consultas",
       type: STRING(256),
       allowNull: false,
     },
+    paciente_id: {
+      type: INTEGER,
+      allowNull: false,
+      references: {
+        model: 'paciente', 
+        key: 'id', 
+      },
     statusSistema: {
       type: BOOLEAN,
       allowNull: false,
       defaultValue: true,
     },
   },
-  { undescored: true, paranoid: true }
+},{ undescored: true, paranoid: true }
 );
 
+Consulta.belongsTo(Paciente, {foreignKey : 'paciente_id'})
+Paciente.hasMany(Consulta,{foreignKey : 'paciente_id'})
 
-Paciente.belongsTo(Consulta, {foreignKey : 'consulta_paciente_id'})
 module.exports =  Consulta ;

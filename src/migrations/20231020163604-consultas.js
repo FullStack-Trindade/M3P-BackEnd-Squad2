@@ -35,6 +35,14 @@ module.exports = {
         type: STRING(256),
         allowNull: false,
       },
+      paciente_id: {
+        type: INTEGER,
+        allowNull: false,
+        references: {
+          model: 'paciente', 
+          key: 'id', 
+        },
+      },
       status_sistema: {
         type: BOOLEAN,
         allowNull: false,

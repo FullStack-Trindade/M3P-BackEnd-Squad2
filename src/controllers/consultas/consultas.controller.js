@@ -1,11 +1,11 @@
-const  Consulta  = require("../../models/consultas/consultas.model");
+const Consulta = require("../../models/consultas/consultas.model");
 const Paciente = require("../../models/paciente");
 
 const hoje = new Date();
-    const hora = hoje.getHours();
-    const minutos = hoje.getMinutes();
-    const segs = hoje.getSeconds();
-    const dataHora = `${hora}:${minutos}:${segs}`;
+const hora = hoje.getHours();
+const minutos = hoje.getMinutes();
+const segs = hoje.getSeconds();
+const dataHora = `${hora}:${minutos}:${segs}`;
 
 const criarConsulta = async (request, response) => {
   try {
@@ -16,6 +16,7 @@ const criarConsulta = async (request, response) => {
       descricaoProblema,
       medicacao,
       dosagem,
+      paciente_id,
       statusSistema,
     } = request.body;
 
@@ -26,6 +27,7 @@ const criarConsulta = async (request, response) => {
       descricaoProblema,
       medicacao,
       dosagem,
+      paciente_id,
       statusSistema,
     });
     console.error(consulta);
@@ -33,7 +35,7 @@ const criarConsulta = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+      message: "Não foi possível processar a solicitação",error
     });
   }
 };
@@ -49,6 +51,7 @@ const atualizarConsulta = async (request, response) => {
       descricaoProblema,
       medicacao,
       dosagem,
+      paciente_id,
       statusSistema,
     } = request.body;
 
@@ -60,8 +63,6 @@ const atualizarConsulta = async (request, response) => {
         .json({ message: "Consulta não foi encontrado" });
     }
 
-    
-    
     const data = {
       motivoConsulta: motivoConsulta || consultaExistente.motivoConsulta,
       dataConsulta: dataConsulta || new Date(),
@@ -70,6 +71,7 @@ const atualizarConsulta = async (request, response) => {
         descricaoProblema || consultaExistente.descricaoProblema,
       medicacao: medicacao || consultaExistente.medicacao,
       dosagem: dosagem || consultaExistente.dosagem,
+      paciente_id,
       statusSistema: statusSistema || consultaExistente.statusSistema,
     };
 
@@ -80,7 +82,7 @@ const atualizarConsulta = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+      message: "Não foi possível processar a solicitação",error
     });
   }
 };
@@ -96,26 +98,24 @@ const buscarConsultas = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+      message: "Não foi possível processar a solicitação",error
     });
   }
 };
 
-/* Esse endpoint deve ter como Parâmetro da Requisição o ID do Usuário, 
-sendo assim se o ID do usuário vier preenchido para o Backend apenas os 
-dados atrelados ao usuário desse nome retornará, caso contrário todos os 
-dados devem ser retornados. */
-
 const buscaConsulta = async (request, response) => {
   try {
-    const consulta = await Consulta.findAll({ include: Paciente.nome_completo })
+    const consulta = await Consulta.findAll({
+      where: { paciente_id: request.params.id },
+      include: [{ model: Paciente, as: "paciente",  attributes: ["nome_completo", "cpf"] }],
+    });
     if (!consulta)
       return response.status(400).json({ message: "Consulta não encontrada" });
     response.status(200).json(consulta);
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+      message: "Não foi possível processar a solicitação",error
     });
   }
 };
@@ -134,7 +134,7 @@ const deleteConsulta = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+      message: "Não foi possível processar a solicitação",error
     });
   }
 };
