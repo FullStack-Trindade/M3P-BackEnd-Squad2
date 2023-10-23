@@ -11,7 +11,7 @@ const {
 
 const exameRoutes = new Router();
 
-exameRoutes.post("/api/exames", validacaoExame, criarExame);
+exameRoutes.post("/api/exames", criarExame);
 exameRoutes.put("/api/exames/:id", validacaoUpdate, atualizarExame);
 exameRoutes.get("/api/exames", buscarExames);
 exameRoutes.get("/api/exames/:id", buscaExame);

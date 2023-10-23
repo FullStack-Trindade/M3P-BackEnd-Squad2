@@ -1,14 +1,7 @@
 const Exame = require("../../models/exames/exames.model");
 const Paciente = require("../../models/paciente");
-const moment = require('moment')
 
-const hoje = new Date();
-const hora = hoje.getHours();
-const minutos = hoje.getMinutes();
-const segs = hoje.getSeconds();
-
-const dataHora = `${hora}:${minutos}:${segs}`;
-const dataFormatada = moment(hoje).format('YYYY-MM-DD')
+const { dataHora, dataFormatada } = require("../../services/dataHora.service");
 
 const criarExame = async (request, response) => {
   try {
@@ -36,12 +29,12 @@ const criarExame = async (request, response) => {
       statusSistema,
     });
     console.error(exame);
-    console.error("data formatada:" + dataFormatada);
     response.status(201).json(exame);
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-     message: "Não foi possível processar a solicitação",error
+      message: "Não foi possível processar a solicitação",
+      error,
     });
   }
 };
@@ -85,7 +78,8 @@ const atualizarExame = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-     message: "Não foi possível processar a solicitação",error
+      message: "Não foi possível processar a solicitação",
+      error,
     });
   }
 };
@@ -99,7 +93,8 @@ const buscarExames = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-     message: "Não foi possível processar a solicitação",error
+      message: "Não foi possível processar a solicitação",
+      error,
     });
   }
 };
@@ -115,7 +110,7 @@ const buscaExame = async (request, response) => {
         },
       ],
     });
-    console.log(exame)
+    console.log(exame);
     if (!exame) {
       return response.status(400).send({ message: "Exame não encontrado" });
     }
@@ -124,7 +119,8 @@ const buscaExame = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-     message: "Não foi possível processar a solicitação",error
+      message: "Não foi possível processar a solicitação",
+      error,
     });
   }
 };
@@ -144,7 +140,8 @@ const deleteExame = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-     message: "Não foi possível processar a solicitação",error
+      message: "Não foi possível processar a solicitação",
+      error,
     });
   }
 };
