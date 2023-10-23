@@ -2,13 +2,7 @@ const Consulta = require("../../models/consultas/consultas.model");
 const Paciente = require("../../models/paciente");
 const moment = require('moment');
 
-const hoje = new Date();
-const hora = hoje.getHours();
-const minutos = hoje.getMinutes();
-const segs = hoje.getSeconds();
-
-const dataHora = `${hora}:${minutos}:${segs}`;
-const dataFormatada = moment(hoje).format('YYYY-MM-DD')
+const { dataHora, dataFormatada } = require("../../services/dataHora.service");
 
 const criarConsulta = async (request, response) => {
   try {
