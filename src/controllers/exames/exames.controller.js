@@ -1,11 +1,14 @@
-const  Exame  = require("../../models/exames/exames.model");
-const Paciente = require("")
+const Exame = require("../../models/exames/exames.model");
+const Paciente = require("../../models/paciente");
+const moment = require('moment')
 
 const hoje = new Date();
 const hora = hoje.getHours();
 const minutos = hoje.getMinutes();
 const segs = hoje.getSeconds();
+
 const dataHora = `${hora}:${minutos}:${segs}`;
+const dataFormatada = moment(hoje).format('YYYY-MM-DD')
 
 const criarExame = async (request, response) => {
   try {
@@ -17,26 +20,28 @@ const criarExame = async (request, response) => {
       laboratorio,
       docurl,
       resultados,
+      paciente_id,
       statusSistema,
     } = request.body;
 
-
     const exame = await Exame.create({
       nomeExame,
-      dataExame: dataExame || new Date(),
+      dataExame: dataExame || dataFormatada,
       horaExame: horaExame || dataHora,
       tipoExame,
       laboratorio,
       docurl,
       resultados,
+      paciente_id,
       statusSistema,
     });
     console.error(exame);
+    console.error("data formatada:" + dataFormatada);
     response.status(201).json(exame);
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+     message: "Não foi possível processar a solicitação",error
     });
   }
 };
@@ -53,6 +58,7 @@ const atualizarExame = async (request, response) => {
       laboratorio,
       docurl,
       resultados,
+      paciente_id,
       statusSistema,
     } = request.body;
 
@@ -64,12 +70,13 @@ const atualizarExame = async (request, response) => {
 
     const data = {
       nomeExame: nomeExame || ExameExistente.nomeExame,
-      dataExame: dataExame || new Date(),
+      dataExame: dataExame || dataFormatada,
       horaExame: horaExame || dataHora,
       tipoExame: tipoExame || ExameExistente.tipoExame,
       laboratorio: laboratorio || ExameExistente.laboratorio,
       docurl: docurl || ExameExistente.docurl,
       resultados: resultados || ExameExistente.resultados,
+      paciente_id,
       statusSistema: statusSistema || ExameExistente.statusSistema,
     };
 
@@ -78,7 +85,7 @@ const atualizarExame = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+     message: "Não foi possível processar a solicitação",error
     });
   }
 };
@@ -92,26 +99,32 @@ const buscarExames = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+     message: "Não foi possível processar a solicitação",error
     });
   }
 };
 const buscaExame = async (request, response) => {
   try {
-
-    const exame = await Exame.findAll({ include: Paciente.nome_completo })
-
+    const exame = await Exame.findAll({
+      where: { paciente_id: request.params.id },
+      include: [
+        {
+          model: Paciente,
+          as: "paciente",
+          attributes: ["nome_completo", "cpf"],
+        },
+      ],
+    });
+    console.log(exame)
     if (!exame) {
-      return res.status(400).send({ message: "Exame não encontrado" });
+      return response.status(400).send({ message: "Exame não encontrado" });
     }
 
-    return res.status(200).send({ exame }); 
- 
-  
+    return response.status(200).send({ exame });
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+     message: "Não foi possível processar a solicitação",error
     });
   }
 };
@@ -131,7 +144,7 @@ const deleteExame = async (request, response) => {
   } catch (error) {
     console.error(error);
     return response.status(500).json({
-      message: "Não foi possível processar a solicitação",
+     message: "Não foi possível processar a solicitação",error
     });
   }
 };

@@ -1,10 +1,10 @@
 const { INTEGER, STRING, BOOLEAN, DataTypes } = require("sequelize");
 const { sequelize } = require("../../database/conexao");
 
-const Paciente = require('../paciente')
+const Paciente = require("../paciente");
 
 const Exame = sequelize.define(
-  "exame",
+  "exames",
   {
     id: {
       type: INTEGER,
@@ -38,22 +38,24 @@ const Exame = sequelize.define(
       type: DataTypes.STRING(1024),
       allowNull: false,
     },
+    paciente_id: {
+      type: INTEGER,
+      allowNull: false,
+      references: {
+        model: "pacientes",
+        key: "id",
+      },
+    },
     statusSistema: {
       type: BOOLEAN,
       allowNull: false,
       defaultValue: true,
     },
-    pacienteId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Paciente, 
-        key: 'id'
-      }
-    }
   },
   { undescored: true, paranoid: true }
 );
 
-Exame.hasMany(Paciente,{foreignKey : 'pacienteId'})
-Paciente.belongsTo(Exame, {foreignKey : 'pacienteId'})
-module.exports = Exame ;  
+Exame.belongsTo(Paciente, { foreignKey: "paciente_id" });
+Paciente.hasMany(Exame, { foreignKey: "paciente_id" });
+
+module.exports = Exame;
