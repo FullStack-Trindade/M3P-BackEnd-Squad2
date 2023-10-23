@@ -1,11 +1,14 @@
 const Consulta = require("../../models/consultas/consultas.model");
 const Paciente = require("../../models/paciente");
+const moment = require('moment');
 
 const hoje = new Date();
 const hora = hoje.getHours();
 const minutos = hoje.getMinutes();
 const segs = hoje.getSeconds();
+
 const dataHora = `${hora}:${minutos}:${segs}`;
+const dataFormatada = moment(hoje).format('YYYY-MM-DD')
 
 const criarConsulta = async (request, response) => {
   try {
@@ -22,7 +25,7 @@ const criarConsulta = async (request, response) => {
 
     const consulta = await Consulta.create({
       motivoConsulta,
-      dataConsulta: dataConsulta || new Date(),
+      dataConsulta: dataConsulta || dataFormatada,
       horaConsulta: horaConsulta || dataHora,
       descricaoProblema,
       medicacao,
@@ -65,7 +68,7 @@ const atualizarConsulta = async (request, response) => {
 
     const data = {
       motivoConsulta: motivoConsulta || consultaExistente.motivoConsulta,
-      dataConsulta: dataConsulta || new Date(),
+      dataConsulta: dataConsulta || dataFormatada,
       horaConsulta: horaConsulta || dataHora,
       descricaoProblema:
         descricaoProblema || consultaExistente.descricaoProblema,
