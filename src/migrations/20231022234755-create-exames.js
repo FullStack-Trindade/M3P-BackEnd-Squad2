@@ -5,7 +5,7 @@ const { DataTypes } = require("sequelize");
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("exames", {
-      exame_id: {
+      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -16,7 +16,8 @@ module.exports = {
         allowNull: false,
       },
       data_exame: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
         allowNull: false,
       },
       hora_exame: {
@@ -39,21 +40,30 @@ module.exports = {
         type: DataTypes.STRING(1024),
         allowNull: false,
       },
+      paciente_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "paciente",
+          key: "id",
+        },
+      },
       status_sistema: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-      }, created_at: {
+      },
+      created_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       updated_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       deleted_at: {
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
 

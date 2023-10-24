@@ -17,7 +17,7 @@ server.use(express.json());
 server.use(exameRoutes);
 
 //endpoints de usuario e paciente
-server.use('/api', usuarioRoutes, pacientesRouter);
+server.use('/api', usuarioRoutes, pacientesRouter, exameRoutes);
 
 //rota de teste da api apagar depois
 server.get("/", (request, response) => {
