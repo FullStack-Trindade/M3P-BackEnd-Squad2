@@ -18,7 +18,7 @@ server.use(express.json());
 server.use(exameRoutes);
 
 
-server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes));
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes);
 
 
 server.get("/", (request, response) => {
