@@ -39,7 +39,7 @@ module.exports = {
         type: INTEGER,
         allowNull: false,
         references: {
-          model: 'paciente', 
+          model: 'pacientes', 
           key: 'id', 
         },
       },

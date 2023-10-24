@@ -38,7 +38,7 @@ const Consulta = sequelize.define("consultas",
       type: INTEGER,
       allowNull: false,
       references: {
-        model: 'paciente', 
+        model: 'pacientes', 
         key: 'id', 
       },
     statusSistema: {
