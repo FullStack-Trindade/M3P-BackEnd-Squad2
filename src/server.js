@@ -7,6 +7,7 @@ const { dietaRoutes } = require("./routes/dietas.routes");
 const server = express();
 
 const pacientesRouter = require('./routes/pacientes.routes');
+const consultaRoutes  = require('./routes/consultas.routes');
 
 server.use(
   cors({
@@ -17,10 +18,10 @@ server.use(
 server.use(express.json());
 server.use(exameRoutes);
 
-//endpoints de usuario e paciente
-server.use('/api', usuarioRoutes, pacientesRouter, dietaRoutes);
 
-//rota de teste da api apagar depois
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes);
+
+
 server.get("/", (request, response) => {
   response.status(200).json({
     message: `Hello World, ${process.env.APP_NAME}`,
@@ -30,3 +31,5 @@ server.get("/", (request, response) => {
 module.exports = {
   server,
 };
+
+
