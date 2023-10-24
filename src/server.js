@@ -6,6 +6,7 @@ const { exameRoutes } = require("./routes/exames.routes");
 const server = express();
 
 const pacientesRouter = require('./routes/pacientes.routes');
+const { dietaRoutes } = require("./routes/dietas.routes");
 
 server.use(
   cors({
@@ -17,7 +18,7 @@ server.use(express.json());
 server.use(exameRoutes);
 
 //endpoints de usuario e paciente
-server.use('/api', usuarioRoutes, pacientesRouter);
+server.use('/api', usuarioRoutes, pacientesRouter, dietaRoutes);
 
 //rota de teste da api apagar depois
 server.get("/", (request, response) => {
