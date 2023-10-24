@@ -18,12 +18,10 @@ module.exports = {
       data: {
         type: Sequelize.DATEONLY,
         allowNull: false,
-        defaultValue: Sequelize.fn("NOW"),
       },
       horario: {
         type: Sequelize.TIME(6),
         allowNull: false,
-        defaultValue: Sequelize.fn("NOW"),
       },
       tipo: {
         type: Sequelize.ENUM("Low Carb", "Dash", "Paleolítica", "Cetogênica", "Dukan", "Mediterrânea", "Outra"),

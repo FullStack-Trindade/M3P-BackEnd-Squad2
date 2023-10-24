@@ -19,12 +19,10 @@ const Dieta = sequelize.define("dietas", {
   data: {
     type: DataTypes.DATEONLY,
     allowNull: false,
-    defaultValue: Sequelize.fn("NOW"),
   },
   horario: {
     type: DataTypes.TIME(6),
     allowNull: false,
-    defaultValue: Sequelize.fn("NOW"),
   },
   tipo: {
     type: DataTypes.ENUM("Low Carb", "Dash", "Paleolítica", "Cetogênica", "Dukan", "Mediterrânea", "Outra"),
