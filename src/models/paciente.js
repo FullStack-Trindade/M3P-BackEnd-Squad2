@@ -4,7 +4,7 @@ const conexao = new Sequelize(DB_CONFIG);
 
 const Endereco = require("./endereco");
 
-const Paciente = conexao.define("paciente", {
+const Paciente = conexao.define("pacientes", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,

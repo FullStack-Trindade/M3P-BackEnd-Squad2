@@ -1,6 +1,5 @@
 const Consulta = require("../../models/consultas/consultas.model");
 const Paciente = require("../../models/paciente");
-const moment = require('moment');
 
 const { dataHora, dataFormatada } = require("../../services/dataHora.service");
 

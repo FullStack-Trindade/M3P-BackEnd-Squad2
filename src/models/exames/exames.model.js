@@ -42,7 +42,7 @@ const Exame = sequelize.define(
       type: INTEGER,
       allowNull: false,
       references: {
-        model: "paciente",
+        model: "pacientes",
         key: "id",
       },
     },
