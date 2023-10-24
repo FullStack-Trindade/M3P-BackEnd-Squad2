@@ -1,4 +1,5 @@
 const yup = require("yup");
+const moment = require("moment");
 
 
 const schema = yup.object().shape({
@@ -7,8 +8,8 @@ const schema = yup.object().shape({
   .required('Nome da Dieta é obrigatório')
   .min(5, 'Nome da Dieta deve ter pelo menos 5 caracteres')
   .max(100, 'Nome da Dieta deve ter no máximo 100 caracteres'),
-  data: yup.date().required('Data é obrigatória no formato YYYY-MM-DD'),
-  horario: yup.string().required('Horário é obrigatório no formato HH:MM:SS'),
+  data: yup.date().nullable().test('date-format', 'Data deve estar no formato YYYY-MM-DD', (value) => !value || moment(value, 'YYYY-MM-DD', true).isValid()),
+  horario: yup.string().nullable().test('time-format', 'Horário deve estar no formato HH:MM:SS', (value) => !value || moment(value, 'HH:mm:ss', true).isValid()), 
   tipo: yup
   .string()
   .required('Tipo é obrigatório')

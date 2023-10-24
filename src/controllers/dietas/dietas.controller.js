@@ -15,10 +15,13 @@ const cadastraDieta = async (req, res) => {
     if (!pacienteExistente) {
       return res.status(400).json({ message: "Paciente não encontrado" });
     }
-
-    // Define a data e horário no formato desejado
-    novaDieta.data = dataFormatada; 
-    novaDieta.horario = dataHora; 
+    // Verifica se as datas e horários foram fornecidos no JSON
+    if (!novaDieta.data) {
+      novaDieta.data = dataFormatada; // Aplica a data formatada se não fornecida
+    }
+    if (!novaDieta.horario) {
+      novaDieta.horario = dataHora; // Aplica a hora formatada se não fornecida
+    }
     
     // Cria a dieta
     const dieta = await Dieta.create(novaDieta);
