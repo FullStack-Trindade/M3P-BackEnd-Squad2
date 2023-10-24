@@ -3,6 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const { usuarioRoutes } = require("./routes/usuario.routes");
 const { exameRoutes } = require("./routes/exames.routes");
+const { dietaRoutes } = require("./routes/dietas.routes");
 const server = express();
 
 const pacientesRouter = require('./routes/pacientes.routes');
@@ -18,7 +19,7 @@ server.use(express.json());
 server.use(exameRoutes);
 
 
-server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes);
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes);
 
 
 server.get("/", (request, response) => {
