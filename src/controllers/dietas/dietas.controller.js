@@ -24,6 +24,30 @@ const cadastraDieta = async (req, res) => {
   }
 };
 
+// Função para atualizar uma dieta por ID
+const atualizaDieta = async (req, res) => {
+  const dietaId = req.params.id;
+  const dadosAtualizados = req.body;
+
+  try {
+    // Verifica se a dieta com o ID especificado existe
+    const dietaExistente = await Dieta.findByPk(dietaId);
+
+    if (!dietaExistente) {
+      return res.status(400).json({ message: "Dieta não encontrada" });
+    }
+
+    // Atualiza a dieta
+    await Dieta.update(dadosAtualizados, {
+      where: { id: dietaId },
+    });
+
+    return res.status(200).json({ message: "Dieta atualizada com sucesso" });
+  } catch (error) {
+    console.error("Erro ao atualizar dieta:", error);
+    return res.status(500).json({ message: "Erro ao atualizar dieta", error });
+  }
+};
 
 // Função para listar todas as dietas 
 const listaDietas = async (req, res) => {
@@ -61,6 +85,7 @@ const excluiDieta = async (req, res) => {
 
 module.exports = {
   cadastraDieta,
+  atualizaDieta,
   listaDietas,
   excluiDieta,
 };
