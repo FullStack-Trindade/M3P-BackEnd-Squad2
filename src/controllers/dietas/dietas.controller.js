@@ -37,9 +37,30 @@ const listaDietas = async (req, res) => {
 };
 
 
+// Função para excluir uma dieta por ID
+const excluiDieta = async (req, res) => {
+  const dietaId = req.params.id;
 
+  try {
+    // Verifica se a dieta com o ID especificado existe
+    const dietaExistente = await Dieta.findByPk(dietaId);
+
+    if (!dietaExistente) {
+      return res.status(400).json({ message: "Dieta não encontrada" });
+    }
+
+    // Exclui a dieta
+    await Dieta.destroy({ where: { id: dietaId } });
+
+    return res.status(202).json({ message: "Dieta excluída com sucesso" });
+  } catch (error) {
+    console.error("Erro ao excluir dieta:", error);
+    return res.status(500).json({ message: "Erro ao excluir dieta", error });
+  }
+};
 
 module.exports = {
   cadastraDieta,
   listaDietas,
+  excluiDieta,
 };
