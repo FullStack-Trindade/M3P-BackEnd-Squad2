@@ -16,12 +16,12 @@ module.exports = {
         },
       },
       data: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
         defaultValue: Sequelize.fn("NOW"),
       },
       horario: {
-        type: Sequelize.DATE,
+        type: Sequelize.TIME(6),
         allowNull: false,
         defaultValue: Sequelize.fn("NOW"),
       },

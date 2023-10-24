@@ -1,6 +1,8 @@
 const Dieta = require("../../models/dietas.model");
 const Paciente = require("../../models/paciente");
 
+const { dataHora, dataFormatada } = require("../../services/dataHora.service");
+
 // Função para cadastrar uma nova dieta
 const cadastraDieta = async (req, res) => {
   try {
@@ -14,6 +16,10 @@ const cadastraDieta = async (req, res) => {
       return res.status(400).json({ message: "Paciente não encontrado" });
     }
 
+    // Define a data e horário no formato desejado
+    novaDieta.data = dataFormatada; 
+    novaDieta.horario = dataHora; 
+    
     // Cria a dieta
     const dieta = await Dieta.create(novaDieta);
 

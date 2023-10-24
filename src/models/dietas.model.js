@@ -17,12 +17,12 @@ const Dieta = sequelize.define("dietas", {
     },
   },
   data: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     defaultValue: Sequelize.fn("NOW"),
   },
   horario: {
-    type: DataTypes.DATE,
+    type: DataTypes.TIME(6),
     allowNull: false,
     defaultValue: Sequelize.fn("NOW"),
   },
