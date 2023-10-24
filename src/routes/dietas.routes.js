@@ -12,10 +12,10 @@ const {
 const dietaRoutes = new Router();
 
 
-dietaRoutes.post("/api/dietas", validarNovaDieta, cadastraDieta);
-dietaRoutes.put("/api/dietas/:id", validarAtualizacaoDieta, atualizaDieta);
-dietaRoutes.get("/api/dietas", listaDietas);
-dietaRoutes.get("/api/dietas/:nomePaciente", listaDietasPorPaciente);
-dietaRoutes.delete("/api/dietas/:id", excluiDieta);
+dietaRoutes.post("/dietas", validarNovaDieta, cadastraDieta);
+dietaRoutes.put("/dietas/:id", validarAtualizacaoDieta, atualizaDieta);
+dietaRoutes.get("/dietas", listaDietas);
+dietaRoutes.get("/dietas/:nomePaciente", listaDietasPorPaciente);
+dietaRoutes.delete("/dietas/:id", excluiDieta);
 
 module.exports = { dietaRoutes };

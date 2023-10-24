@@ -3,10 +3,10 @@ const cors = require("cors");
 const express = require("express");
 const { usuarioRoutes } = require("./routes/usuario.routes");
 const { exameRoutes } = require("./routes/exames.routes");
+const { dietaRoutes } = require("./routes/dietas.routes");
 const server = express();
 
 const pacientesRouter = require('./routes/pacientes.routes');
-const { dietaRoutes } = require("./routes/dietas.routes");
 
 server.use(
   cors({
