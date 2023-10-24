@@ -42,7 +42,7 @@ const atualizaDieta = async (req, res) => {
       where: { id: dietaId },
     });
 
-    return res.status(200).json({ message: "Dieta atualizada com sucesso" });
+    return res.status(201).json({ message: "Dieta atualizada com sucesso" });
   } catch (error) {
     console.error("Erro ao atualizar dieta:", error);
     return res.status(500).json({ message: "Erro ao atualizar dieta", error });
@@ -60,6 +60,30 @@ const listaDietas = async (req, res) => {
   }
 };
 
+// Função para listar todas as dietas e um paciente específico 
+const listaDietasPorPaciente = async (req, res) => {
+  try {
+    const nomePaciente = req.params.nomePaciente;
+    
+    // Implemente a lógica para buscar o ID do paciente com base no nome
+    const paciente = await Paciente.findOne({ where: { nome_completo: nomePaciente } });
+
+    if (!paciente) {
+      return res.status(400).json({ message: "Paciente não encontrado" });
+    }
+
+    const dietas = await Dieta.findAll({ where: { paciente_id: paciente.id } });
+
+    if (dietas.length === 0) {
+      return res.status(400).json({ message: "O paciente não tem nenhuma dieta" });
+    }
+
+    return res.status(200).json(dietas);
+  } catch (error) {
+    console.error("Erro ao listar dietas de um paciente:", error);
+    return res.status(500).json({ message: "Erro ao listar dietas de um paciente", error });
+  }
+};
 
 // Função para excluir uma dieta por ID
 const excluiDieta = async (req, res) => {
@@ -88,4 +112,5 @@ module.exports = {
   atualizaDieta,
   listaDietas,
   excluiDieta,
+  listaDietasPorPaciente,
 };
