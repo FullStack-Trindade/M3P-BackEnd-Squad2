@@ -5,6 +5,7 @@ const { dataHora, dataFormatada } = require("../../services/dataHora.service");
 
 const criarExame = async (request, response) => {
   try {
+
     const {
       nomeExame,
       dataExame,
@@ -16,6 +17,12 @@ const criarExame = async (request, response) => {
       paciente_id,
       statusSistema,
     } = request.body;
+    
+    const paciente = await Paciente.findByPk(paciente_id);
+
+    if (!paciente) {
+      return response.status(400).json({ message: "Paciente não encontrado" });
+    }
 
     const exame = await Exame.create({
       nomeExame,
@@ -100,15 +107,14 @@ const buscarExames = async (request, response) => {
 };
 const buscaExame = async (request, response) => {
   try {
+    const paciente = await Paciente.findOne({
+      where: { nome_completo: request.params.nome },
+    });
+    if (!paciente) {
+      return response.status(404).send({ message: "Paciente não encontrado" });
+    }
     const exame = await Exame.findAll({
-      where: { paciente_id: request.params.id },
-      include: [
-        {
-          model: Paciente,
-          as: "paciente",
-          attributes: ["nome_completo", "cpf"],
-        },
-      ],
+      where: { paciente_id: paciente.id },
     });
     console.log(exame);
     if (!exame) {
