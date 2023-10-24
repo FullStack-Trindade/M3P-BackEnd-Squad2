@@ -1,26 +1,23 @@
 const yup = require("yup");
 
-const data = new Intl.DateTimeFormat("pt-BR", {
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
 
 const schema = yup.object().shape({
-  nomeDieta: yup
-    .string()
-    .required("Nome do dieta é obrigatório")
-    .min(5, "Nome do dieta precisa ter, no mínimo, 5 caracteres")
-    .max(100, "Nome do dieta precisa ter, no máximo, 100 caracteres"),
-  dataDieta: yup.date().default(new Date()),
-  horaDieta: yup.string().default(data),
-  tipoDieta: yup
-    .string()
-    .required('Tipo é obrigatório')
-    .oneOf(['Low Carb', 'Dash', 'Paleolítica', 'Cetogênica', 'Dukan', 'Mediterrânea', 'Outra'], 'Gênero deve ser Low Carb, Dash, Paleolítica, Cetogênica, Dukan, Mediterrânea, Outra'),
-  descricaoDieta: yup.string(),
-  statusSistema: yup.boolean().oneOf([true]),
+  nome_dieta: yup
+  .string()
+  .required('Nome da Dieta é obrigatório')
+  .min(5, 'Nome da Dieta deve ter pelo menos 5 caracteres')
+  .max(100, 'Nome da Dieta deve ter no máximo 100 caracteres'),
+  data: yup.date().required('Data é obrigatória no formato YYYY-MM-DD'),
+  horario: yup.string().required('Horário é obrigatório no formato HH:MM:SS'),
+  tipo: yup
+  .string()
+  .required('Tipo é obrigatório')
+  .oneOf(
+    ['Low Carb', 'Dash', 'Paleolítica', 'Cetogênica', 'Dukan', 'Mediterrânea', 'Outra'],
+    'Tipo inválido: dever ser do tipo Low Carb, Dash, Paleolítica, Cetogênica, Dukan, Mediterrânea ou Outra'
+  ),
+  descricao: yup.string().required('Descrição é obrigatória'),
+  status_sistema: yup.boolean().required('Status do Sistema é obrigatório'),
 });
 
 const validarAtualizacaoDieta = (req, res, next) => {
