@@ -15,7 +15,7 @@ const Configuracoes = sequelize.define(
     },
     slogan: {
       type: STRING,
-      allowNull: false,
+      allowNull: true,
     },
     corPrimaria: {
       type: STRING,

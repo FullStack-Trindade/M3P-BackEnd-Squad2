@@ -16,12 +16,11 @@ module.exports = {
       },
       slogan: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       cor_primaria: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       cor_secundaria: {
         type: Sequelize.STRING,
