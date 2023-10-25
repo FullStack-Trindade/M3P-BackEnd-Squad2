@@ -35,14 +35,14 @@ const Exercicio = sequelize.define(
 			allowNull: false,
 		},
 		qtdPorSemana: {
-			type: Sequelize.DOUBLE(4, 2),
+			type: Sequelize.INTEGER,
 			allowNull: false,
 		},
 		descricao: {
 			type: Sequelize.STRING(1000),
 			allowNull: false,
 		},
-		status: {
+		statusSistema: {
 			type: Sequelize.BOOLEAN,
 			allowNull: false,
 			defaultValue: true,
