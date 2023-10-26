@@ -1,4 +1,4 @@
-const {Exercicio} = require("../models/exercicios.model")
+const Exercicio = require("../models/exercicios.model")
 const Paciente = require("../models/paciente")
 
 const hoje = new Date()
@@ -18,7 +18,13 @@ const criarExercicio = async (req, res) => {
 			qtdPorSemana,
 			descricao,
 			statusSistema,
+			paciente_id,
 		} = req.body
+
+		// Verifica se o paciente existe
+		const pacienteExiste = await Paciente.findByPk(paciente_id)
+
+		if(!pacienteExiste) return res.status(400).json({message: "Paciente não encontrado"})
 
 		const exercicio = await Exercicio.create({
 			nomeSerie,
@@ -28,6 +34,7 @@ const criarExercicio = async (req, res) => {
 			qtdPorSemana,
 			descricao,
 			statusSistema: statusSistema || true,
+			pacienteId: paciente_id
 		})
 
 		return res.status(201).json(exercicio)
