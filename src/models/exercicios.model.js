@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize")
 const { sequelize } = require("../database/conexao")
+const Paciente = require("./paciente")
 
 const Exercicio = sequelize.define(
 	"exercicios",
@@ -35,7 +36,7 @@ const Exercicio = sequelize.define(
 			allowNull: false,
 		},
 		qtdPorSemana: {
-			type: DataTypes.NUMERIC(5,2),
+			type: DataTypes.NUMERIC(5, 2),
 			allowNull: false,
 		},
 		descricao: {
@@ -57,11 +58,29 @@ const Exercicio = sequelize.define(
 			allowNull: false,
 			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 		},
+
+		paciente_id: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: "pacientes",
+				key: "id",
+			},
+		},
+		paciente_nome: {
+			type: Sequelize.STRING,
+			allowNull: false,
+			references: {
+				model: "pacientes",
+				key: "nome_completo",
+			}
+		},
 	},
-	{
-		undescored: true,
-		paranoid: true,
-	}
+
+	{ undescored: true, paranoid: true }
 )
 
-module.exports = { Exercicio }
+Exercicio.belongsTo(Paciente, { foreignKey: "paciente_id" })
+Paciente.hasMany(Exercicio, { foreignKey: "paciente_id" })
+
+module.exports = Exercicio
