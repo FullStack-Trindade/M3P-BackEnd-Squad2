@@ -7,14 +7,14 @@ const {
   buscarExames,
   buscaExame,
   deleteExame
-} = require("../controllers/exames.controller");
+} = require("../controllers/exames/exames.controller");
 
 const exameRoutes = new Router();
 
-exameRoutes.post("/api/exames", validacaoExame, criarExame);
+exameRoutes.post("/api/exames",validacaoExame, criarExame);
 exameRoutes.put("/api/exames/:id", validacaoUpdate, atualizarExame);
 exameRoutes.get("/api/exames", buscarExames);
-exameRoutes.get("/api/exames/:nomeExame", buscaExame);
+exameRoutes.get("/api/exames/:id", buscaExame);
 exameRoutes.delete("/api/exames/:id", deleteExame);
 
 module.exports = { exameRoutes };
