@@ -17,7 +17,7 @@ server.use(
 );
 
 server.use(express.json());
-server.use(exameRoutes);
+
 
 
 server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, logRoutes);
