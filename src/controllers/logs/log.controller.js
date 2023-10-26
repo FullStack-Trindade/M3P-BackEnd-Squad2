@@ -2,7 +2,7 @@ const Log = require('../../models/log.model');
 
 async function criarLog(req, acao) {
       //verifica se a req tem um usuario vindo do front, se tiver pega o nome dele, se não, pega o nome defalt Não Identificado
-      const usuarioNome = req.body.usuario ? req.body.usuario.nomeCompleto : 'Não Identificado'; 
+      const usuarioNome = req.usuario.nomeCompleto
       const registro = `O usuário ${usuarioNome} ${acao}`;
       await Log.create({ registro });
     }
