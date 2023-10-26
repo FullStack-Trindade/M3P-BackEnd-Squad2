@@ -10,6 +10,7 @@ const server = express();
 const pacientesRouter = require('./routes/pacientes.routes');
 const consultaRoutes  = require('./routes/consultas.routes');
 const exerciciosRoutes = require('./routes/exercicios.routes')
+const { configuracaoRoutes } = require("./routes/configuracoes.routes");
 
 server.use(
   cors({
@@ -19,11 +20,7 @@ server.use(
 
 server.use(express.json());
 
-
-
-server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes );
-
-
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes, configuracaoRoutes );
 
 server.get("/", (request, response) => {
   response.status(200).json({
@@ -34,5 +31,3 @@ server.get("/", (request, response) => {
 module.exports = {
   server,
 };
-
-
