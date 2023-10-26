@@ -9,6 +9,7 @@ const server = express();
 
 const pacientesRouter = require('./routes/pacientes.routes');
 const consultaRoutes  = require('./routes/consultas.routes');
+const exerciciosRoutes = require('./routes/exercicios.routes')
 
 server.use(
   cors({
@@ -20,7 +21,8 @@ server.use(express.json());
 
 
 
-server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, logRoutes);
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes );
+
 
 
 server.get("/", (request, response) => {
