@@ -9,13 +9,14 @@ const {
     buscaConsulta,
     deleteConsulta,
 } = require("../controllers/consultas/consultas.controller");
+const { validarToken } = require("../middlewares/validarToken");
 
 const consultaRoutes = new Router();
 
-consultaRoutes.post("/consultas", validacaoConsulta, criarConsulta);
-consultaRoutes.put("/consultas/:id",validacaoUpdateConsulta, atualizarConsulta);
-//consultaRoutes.get("/consultas", buscarConsultas);
-consultaRoutes.get("/consultas/:id", buscaConsulta);
-consultaRoutes.delete("/consultas/:id", deleteConsulta);
+consultaRoutes.post("/consultas", validarToken,  validacaoConsulta, criarConsulta);
+consultaRoutes.put("/consultas/:id", validarToken, validacaoUpdateConsulta, atualizarConsulta);
+consultaRoutes.get("/consultas", validarToken, buscarConsultas);
+consultaRoutes.get("/consultas/:id", validarToken, buscaConsulta);
+consultaRoutes.delete("/consultas/:id", validarToken, deleteConsulta);
 
 module.exports = consultaRoutes ;

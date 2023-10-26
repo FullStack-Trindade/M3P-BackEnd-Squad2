@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('paciente', {
+    return queryInterface.createTable('pacientes', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = {
         },
       },
       genero: {
-        type: Sequelize.ENUM('MASCULINO', 'FEMININO', 'OUTRO'),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       data_nascimento: {
@@ -36,7 +36,7 @@ module.exports = {
         },
       },
       estado_civil: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM("SOLTEIRO", "CASADO", "DIVORCIADO", "VIUVO"),
         allowNull: false,
       },
       telefone: {
@@ -89,8 +89,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'enderecos', // Nome da tabela de endereços
-          key: 'id', // Nome da coluna de destino em enderecos
+          model: 'enderecos',
+          key: 'id',
         },
       },
       created_at: {
@@ -105,6 +105,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('paciente');
+    return queryInterface.dropTable('pacientes');
   },
 };
