@@ -1,5 +1,6 @@
 const Dieta = require("../../models/dietas.model");
 const Paciente = require("../../models/paciente");
+const { criarLog } = require('../logs/log.controller');
 
 const { dataHora, dataFormatada } = require("../../services/dataHora.service");
 
@@ -26,6 +27,9 @@ const cadastraDieta = async (req, res) => {
     // Cria a dieta
     const dieta = await Dieta.create(novaDieta);
 
+    // Crie um log
+    await criarLog(req, `cadastrou a dieta ${novaDieta.nome_dieta} para o paciente ${pacienteExistente.nome_completo}`);
+
     return res.status(201).json(dieta);
   } catch (error) {
     console.error("Erro ao cadastrar dieta:", error);
@@ -50,6 +54,11 @@ const atualizaDieta = async (req, res) => {
     await Dieta.update(dadosAtualizados, {
       where: { id: dietaId },
     });
+
+    // Crie um log
+    // recupera o nome do paciente
+    const paciente = await Paciente.findByPk(dietaExistente.paciente_id);
+    await criarLog(req, `atualizou a dieta ${dadosAtualizados.nome_dieta} do paciente ${paciente.nome_completo}`);
 
     return res.status(201).json({ message: "Dieta atualizada com sucesso" });
   } catch (error) {
@@ -106,8 +115,10 @@ const excluiDieta = async (req, res) => {
       return res.status(400).json({ message: "Dieta não encontrada" });
     }
 
-    // Exclui a dieta
-    await Dieta.destroy({ where: { id: dietaId } });
+    // Crie um log
+    // recupera o nome do paciente
+    const paciente = await Paciente.findByPk(dietaExistente.paciente_id);
+    await criarLog(req, `excluiu a dieta ${dietaExistente.nome_dieta} do paciente ${paciente.nome_completo}`);
 
     return res.status(202).json({ message: "Dieta excluída com sucesso" });
   } catch (error) {
