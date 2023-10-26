@@ -35,7 +35,7 @@ const Exercicio = sequelize.define(
 			allowNull: false,
 		},
 		qtdPorSemana: {
-			type: Sequelize.INTEGER,
+			type: DataTypes.NUMERIC(5,2),
 			allowNull: false,
 		},
 		descricao: {

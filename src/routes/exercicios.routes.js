@@ -1,17 +1,18 @@
 const express = require('express');
+const { buscarExercicios, criarExercicio } = require('../controllers/exercicios.controller');
 const router = express.Router();
 
 // Cadastra um novo exercício
-router.post('/api/exercicios')
+router.post('/exercicios', criarExercicio)
 
 // Atualiza exercício por ID
-router.put('/api/exercicios/:id')
+router.put('/exercicios/:id')
 
 // Lista exercícios por nome do paciente || lista todos os exercícios
-router.get('/api/exercicios')
+router.get('/exercicios', buscarExercicios)
 
 // Deleta um exercício por ID
-router.delete('/api/exercicios/:id')
+router.delete('/exercicios/:id')
 
 
 module.exports = router
