@@ -1,11 +1,8 @@
 const Exercicio = require("../models/exercicios.model")
 const Paciente = require("../models/paciente")
 
-const hoje = new Date()
-const hora = hoje.getHours()
-const minutos = hoje.getMinutes()
-const segs = hoje.getSeconds()
-const dataHora = `${hora}:${minutos}:${segs}`
+const { dataHora, dataFormatada } = require("../services/dataHora.service");
+
 
 // Cria um novo exercício
 const criarExercicio = async (req, res) => {
@@ -20,15 +17,17 @@ const criarExercicio = async (req, res) => {
 			statusSistema,
 			paciente_id,
 		} = req.body
+		
+		const paciente = await Paciente.findOne({
+			where: { nome_completo: req.params.nome}
+		})
 
 		// Verifica se o paciente existe
-		const pacienteExiste = await Paciente.findByPk(paciente_id)
-
-		if(!pacienteExiste) return res.status(400).json({message: "Paciente não encontrado"})
+		if(!paciente) return res.status(404).json({message: "Paciente não encontrado"})
 
 		const exercicio = await Exercicio.create({
 			nomeSerie,
-			dataExercicio: dataExercicio || new Date(),
+			dataExercicio: dataExercicio || dataFormatada,
 			horaExercicio: horaExercicio || dataHora,
 			tipoExercicio,
 			qtdPorSemana,

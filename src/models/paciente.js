@@ -3,6 +3,7 @@ const DB_CONFIG = require("../config/database");
 const conexao = new Sequelize(DB_CONFIG);
 
 const Endereco = require("./endereco");
+const Exercicio = require('./exercicios.model')
 
 const Paciente = conexao.define("pacientes", {
   id: {
@@ -92,6 +93,10 @@ const Paciente = conexao.define("pacientes", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  exercicio_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
   created_at: {
     type: Sequelize.DATE,
     allowNull: false,
@@ -105,5 +110,6 @@ const Paciente = conexao.define("pacientes", {
 });
 
 Paciente.belongsTo(Endereco, { foreignKey: 'endereco_id' });
+Paciente.belongsTo(Exercicio, { foreignKey: 'exercicio_id' });
 
 module.exports = Paciente;

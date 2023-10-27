@@ -1,11 +1,12 @@
-const { Sequelize, DataTypes } = require("sequelize")
-const { sequelize } = require("../database/conexao")
-const Paciente = require("./paciente.js")
+'use strict';
 
-const Exercicio = sequelize.define(
-	"exercicios",
-	{
-		exercicioId: {
+const { DataTypes } = require('sequelize');
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable("exercicios",{
+		id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
@@ -58,7 +59,6 @@ const Exercicio = sequelize.define(
 			allowNull: false,
 			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 		},
-
 		paciente_id: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
@@ -66,13 +66,11 @@ const Exercicio = sequelize.define(
 				model: "pacientes",
 				key: "id",
 			},
-		},
-	},
+		},		
+  })
+},
 
-	{ undescored: true, paranoid: true }
-)
-
-// Paciente.hasMany(Exercicio, { foreignKey: "paciente_id" })
-// Exercicio.belongsTo(Paciente, { foreignKey: 'paciente_id'})
-
-module.exports = Exercicio
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable("exercicios");
+  }
+};
