@@ -29,15 +29,15 @@ const Medicamento = sequelize.define(
             type: DataTypes.ENUM('CAPSULA', 'COMPRIMIDO', 'LIQUIDO', 'CREME', 'GEL', 'INALACAO', 'INJECAO', 'SPRAY' ),
             allowNull: false,
         },
-        quantidade: {
+        quantidadeMedicamento: {
             type: DataTypes.DECIMAL(11,10),
             allowNull: false,
         },
-        unidade:{
+        unidadeMedicamento:{
             type: DataTypes.ENUM('mg', 'mcg', 'g','mL', '%'),
             allowNull: false,
         },
-        observacoes:{
+        observacoesMedicamento:{
             type: STRING(100),
             allowNull: false,
         },
