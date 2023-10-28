@@ -1,6 +1,5 @@
 const yup = require("yup");
 
-
 const medicamentoSchema = yup.object().shape({
     NomeMedicamento: yup
       .string()
@@ -35,12 +34,13 @@ const medicamentoSchema = yup.object().shape({
     StatusSistema: yup.boolean().required(),
   });
 
-  const validacoesUpdateMedicamentos = (request, response, next)
-  try{
-      schema.validateSync(request.body);
+  const validacoesUpdateMedicamentos = (request, response, next) => {
+    try {
+      medicamentoSchema.validateSync(request.body);
       next();
-  }catch(error){
-      response.status(400).json({message: error.message})
-  }
+    } catch (error) {
+      response.status(400).json({ message: error.message });
+    }
+  };
   
   module.exports = validacoesUpdateMedicamentos;
