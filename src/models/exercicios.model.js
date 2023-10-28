@@ -5,7 +5,7 @@ const Paciente = require("./paciente.js")
 const Exercicio = sequelize.define(
 	"exercicios",
 	{
-		exercicioId: {
+		id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
@@ -48,17 +48,6 @@ const Exercicio = sequelize.define(
 			allowNull: false,
 			defaultValue: true,
 		},
-		created_at: {
-			type: Sequelize.DATE,
-			allowNull: false,
-			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-		},
-		updated_at: {
-			type: Sequelize.DATE,
-			allowNull: false,
-			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-		},
-
 		paciente_id: {
 			type: Sequelize.INTEGER,
 			allowNull: false,

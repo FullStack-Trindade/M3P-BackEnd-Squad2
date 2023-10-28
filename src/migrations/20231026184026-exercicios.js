@@ -12,20 +12,20 @@ module.exports = {
 			autoIncrement: true,
 			allowNull: false,
 		},
-		nomeSerie: {
+		nome_serie: {
 			type: Sequelize.STRING(100),
 			allowNull: false,
 		},
-		dataExercicio: {
+		data_exercicio: {
 			type: DataTypes.DATEONLY,
 			allowNull: false,
 		},
-		horaExercicio: {
+		hora_exercicio: {
 			type: DataTypes.TIME(6),
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
 		},
-		tipoExercicio: {
+		tipo_exercicio: {
 			type: Sequelize.ENUM(
 				"RESISTENCIA AEROBICA",
 				"RESISTENCIA MUSCULAR",
@@ -36,7 +36,7 @@ module.exports = {
 			),
 			allowNull: false,
 		},
-		qtdPorSemana: {
+		qtd_por_semana: {
 			type: DataTypes.NUMERIC(5, 2),
 			allowNull: false,
 		},
@@ -44,10 +44,18 @@ module.exports = {
 			type: Sequelize.STRING(1000),
 			allowNull: false,
 		},
-		statusSistema: {
+		status_sistema: {
 			type: Sequelize.BOOLEAN,
 			allowNull: false,
 			defaultValue: true,
+		},
+		paciente_id: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: "pacientes",
+				key: "id",
+			},
 		},
 		created_at: {
 			type: Sequelize.DATE,
@@ -58,15 +66,10 @@ module.exports = {
 			type: Sequelize.DATE,
 			allowNull: false,
 			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-		},
-		paciente_id: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: "pacientes",
-				key: "id",
-			},
-		},		
+		},	
+		deleted_at: {
+			type: Sequelize.DATE,
+		  },	
   })
 },
 
