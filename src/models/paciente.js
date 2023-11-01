@@ -3,6 +3,7 @@ const DB_CONFIG = require("../config/database");
 const conexao = new Sequelize(DB_CONFIG);
 
 const Endereco = require("./endereco");
+const Exercicio = require('./exercicios.model')
 
 const Paciente = conexao.define("pacientes", {
   id: {
