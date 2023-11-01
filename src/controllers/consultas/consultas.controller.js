@@ -1,5 +1,6 @@
 const Consulta = require("../../models/consultas/consultas.model");
 const Paciente = require("../../models/paciente");
+const { criarLog } = require('../logs/log.controller');
 
 const { dataHora, dataFormatada } = require("../../services/dataHora.service");
 
@@ -16,6 +17,12 @@ const criarConsulta = async (request, response) => {
       statusSistema,
     } = request.body;
 
+    const paciente = await Paciente.findByPk(paciente_id);
+
+    if (!paciente) {
+      return response.status(400).json({ message: "Paciente não encontrado" });
+    }
+
     const consulta = await Consulta.create({
       motivoConsulta,
       dataConsulta: dataConsulta || dataFormatada,
@@ -27,6 +34,10 @@ const criarConsulta = async (request, response) => {
       statusSistema,
     });
     console.error(consulta);
+
+
+    await criarLog(request, `criou uma consulta para o dia ${ consulta.dataConsulta } para o paciente ${paciente.nome_completo}`);
+
     response.status(201).json(consulta);
   } catch (error) {
     console.error(error);
@@ -59,6 +70,7 @@ const atualizarConsulta = async (request, response) => {
         .json({ message: "Consulta não foi encontrado" });
     }
 
+
     const data = {
       motivoConsulta: motivoConsulta || consultaExistente.motivoConsulta,
       dataConsulta: dataConsulta || dataFormatada,
@@ -72,6 +84,11 @@ const atualizarConsulta = async (request, response) => {
     };
 
     await Consulta.update(data, { where: { id: id } });
+
+  
+    const paciente = await Paciente.findByPk(consultaExistente.paciente_id);
+    await criarLog(request, `atualizou a consulta do dia ${ consultaExistente.dataConsulta } do paciente ${paciente.nome_completo} `);
+
     response
       .status(200)
       .json({ message: "Dados de consulta atualizados com sucesso" });
@@ -118,13 +135,19 @@ const buscaConsulta = async (request, response) => {
 
 const deleteConsulta = async (request, response) => {
   try {
+    const consulta = await Consulta.findByPk(request.params.id);
     const id = await Consulta.destroy({
       where: {
         id: request.params.id,
       },
     });
 
+    console.log(id);
+
     if (!id) return response.status(400).json({ message: "ID não encontrado" });
+
+    const paciente = await Paciente.findByPk(consulta.paciente_id);
+    await criarLog(request, `excluiu a consulta do dia ${ consulta.dataConsulta } do paciente ${paciente.nome_completo}`);
 
     response.status(202).json({ message: "Dados excluídos com sucesso" });
   } catch (error) {

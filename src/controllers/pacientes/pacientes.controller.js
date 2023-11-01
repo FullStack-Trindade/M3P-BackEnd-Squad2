@@ -1,6 +1,7 @@
 const Paciente = require("../../models/paciente");
 const Endereco = require("../../models/endereco");
 const { Op } = require("sequelize");
+const { criarLog } = require('../logs/log.controller');
 
 
 // Função para cadsatrar um paciente
@@ -31,6 +32,9 @@ const cadastraPaciente = async (req, res) => {
 
     // Cria o paciente com a associação do endereço
     const paciente = await Paciente.create(novoPaciente);
+
+    // Crie um log
+    await criarLog(req, `cadastrou o paciente ${novoPaciente.nome_completo}`);
 
     return res.status(201).json(paciente);
   } catch (error) {
@@ -73,6 +77,9 @@ const atualizaPaciente = async (req, res) => {
       await pacienteExistente.endereco.update(dadosAtualizados.endereco);
     }
 
+    //registra ação no log
+    await criarLog(req, `atualizou o paciente ${dadosAtualizados.nome_completo}`);
+
     return res.status(200).json({ message: "Paciente atualizado com sucesso" });
   } catch (error) {
     console.error("Erro ao atualizar paciente:", error);
@@ -88,13 +95,13 @@ const listaPacientes = async (req, res) => {
     // Busque todos os pacientes incluindo o modelo Endereco relacionado, mas excluindo os campos createdAt e updatedAt
     const pacientes = await Paciente.findAll({
       attributes: {
-        exclude: ["createdAt", "updatedAt", "created_at", "updated_at"],
+        exclude: ["createdAt", "updatedAt"],
       },
       include: [
         {
           model: Endereco,
           attributes: {
-            exclude: ["createdAt", "updatedAt", "created_at", "updated_at"],
+            exclude: ["createdAt", "updatedAt"],
           },
         },
       ],
@@ -163,6 +170,9 @@ const excluiPaciente = async (req, res) => {
     await Endereco.destroy({
       where: { id: pacienteExistente.endereco.id },
     });
+
+    //registra ação no log
+    await criarLog(req, `excluiu o paciente ${pacienteExistente.nome_completo}`);
 
     return res
       .status(202)

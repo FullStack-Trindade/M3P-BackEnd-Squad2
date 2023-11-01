@@ -1,6 +1,7 @@
 const { sign } = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { Usuario } = require("../../models/Usuario");
+const { criarLog } = require('../logs/log.controller');
 
 const criarUsuario = async (request, response) => {
   try {
@@ -33,6 +34,9 @@ const criarUsuario = async (request, response) => {
       tipo,
       statusSistema,
     });
+
+    await criarLog(request, `criou o usuário ${usuario.nomeCompleto} com permissão ${usuario.tipo}`);
+
     response.status(201).json(usuario);
   } catch (error) {
     console.error(error);
@@ -72,6 +76,9 @@ const atualizarUsuario = async (request, response) => {
     };
 
     await Usuario.update(data, { where: { usuario_id: id } });
+
+    await criarLog(request, `atualizou o usuário ${usuarioExistente.nomeCompleto}`);
+
     response.status(200).json({ message: "Usuário atualizado com sucesso" });
   } catch (error) {
     console.error(error);
@@ -132,6 +139,9 @@ const deletarUsuario = async (request, response) => {
     }
 
     await Usuario.destroy({ where: { usuario_id: id } });
+
+    await criarLog(request, `deletou o usuário ${usuarioExistente.nomeCompleto}`);
+
     response.status(200).json({ message: "Usuário deletado com sucesso" });
   } catch (error) {
     console.error(error);
@@ -180,7 +190,7 @@ const loginUsuario = async (request, response) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+    return response.status(500).json({
       message: "Erro ao realizar o login do usuário",
     });
   }
@@ -212,6 +222,7 @@ const resetarSenha = async (request, response) => {
       { senha: novaSenha },
       { where: { email }, individualHooks: true }
     );
+
 
     return response
       .status(200)

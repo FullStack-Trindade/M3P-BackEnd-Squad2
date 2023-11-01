@@ -19,7 +19,7 @@ const Paciente = conexao.define("pacientes", {
     },
   },
   genero: {
-    type: Sequelize.ENUM("MASCULINO", "FEMININO", "OUTRO"),
+    type: Sequelize.STRING,
     allowNull: false,
   },
   data_nascimento: {
@@ -39,7 +39,7 @@ const Paciente = conexao.define("pacientes", {
     },
   },
   estado_civil: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM("SOLTEIRO","CASADO", "DIVORCIADO", "VIUVO"),
     allowNull: false,
   },
   telefone: {
@@ -92,16 +92,6 @@ const Paciente = conexao.define("pacientes", {
   endereco_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-  },
-  created_at: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-  },
-  updated_at: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
   },
 });
 

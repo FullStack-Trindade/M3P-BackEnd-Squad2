@@ -90,9 +90,7 @@ const buscarExercicios = async (req, res) => {
 	try {
 		const exercicios = await Exercicio.findAll()
 		if (!exercicios)
-			return res
-				.status(400)
-				.json({ message: "Exercicios não encontrado" })
+			return res.status(400).json({ messagem: "Exercício não encontrado" })
 		res.status(200).json({ exercicios })
 	} catch (error) {
 		console.error(error)
