@@ -99,7 +99,7 @@ const buscarExercicios = async (req, res) => {
 			]
 		})
 		if (!exercicios)
-			return res.status(400).json({ messagem: "Exame não encontrado" })
+			return res.status(400).json({ messagem: "Exercício não encontrado" })
 
 		res.status(200).json({ exercicios })
 	} catch (error) {
