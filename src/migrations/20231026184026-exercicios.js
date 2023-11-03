@@ -1,30 +1,31 @@
-const { Sequelize, DataTypes } = require("sequelize")
-const { sequelize } = require("../database/conexao")
-const Paciente = require("./paciente.js")
+'use strict';
 
-const Exercicio = sequelize.define(
-	"exercicios",
-	{
+const { DataTypes } = require('sequelize');
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable("exercicios",{
 		id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
 			allowNull: false,
 		},
-		nomeSerie: {
+		nome_serie: {
 			type: Sequelize.STRING(100),
 			allowNull: false,
 		},
-		dataExercicio: {
+		data_exercicio: {
 			type: DataTypes.DATEONLY,
 			allowNull: false,
 		},
-		horaExercicio: {
+		hora_exercicio: {
 			type: DataTypes.TIME(6),
 			allowNull: false,
 			defaultValue: DataTypes.NOW,
 		},
-		tipoExercicio: {
+		tipo_exercicio: {
 			type: Sequelize.ENUM(
 				"RESISTENCIA AEROBICA",
 				"RESISTENCIA MUSCULAR",
@@ -35,7 +36,7 @@ const Exercicio = sequelize.define(
 			),
 			allowNull: false,
 		},
-		qtdPorSemana: {
+		qtd_por_semana: {
 			type: DataTypes.NUMERIC(5, 2),
 			allowNull: false,
 		},
@@ -43,7 +44,7 @@ const Exercicio = sequelize.define(
 			type: Sequelize.STRING(1000),
 			allowNull: false,
 		},
-		statusSistema: {
+		status_sistema: {
 			type: Sequelize.BOOLEAN,
 			allowNull: false,
 			defaultValue: true,
@@ -56,12 +57,23 @@ const Exercicio = sequelize.define(
 				key: "id",
 			},
 		},
-	},
+		created_at: {
+			type: Sequelize.DATE,
+			allowNull: false,
+			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+		},
+		updated_at: {
+			type: Sequelize.DATE,
+			allowNull: false,
+			defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+		},	
+		deleted_at: {
+			type: Sequelize.DATE,
+		  },	
+  })
+},
 
-	{ undescored: true, paranoid: true }
-)
-
-// Paciente.hasMany(Exercicio, { foreignKey: "paciente_id" })
-// Exercicio.belongsTo(Paciente, { foreignKey: 'paciente_id'})
-
-module.exports = Exercicio
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable("exercicios");
+  }
+};
