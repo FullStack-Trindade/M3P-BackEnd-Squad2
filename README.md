@@ -71,7 +71,7 @@ Verifique o arquivo package.json,.O projeto deve conter todas as tecnologias cit
 <li> <a href="LINKEDIN ANDRÉ" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> ANDRÉ</li>   
 <li> <a href="LINKEDIN DEISE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> DEISE</li>   
 <li> <a href="LINKEDIN MICHELE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> MICHELE</li>   
-<li>: <a href="LINKEDIN RODOLFO" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> RODOLFO</li>   
+<li> <a href="LINKEDIN RODOLFO" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> RODOLFO</li>   
 <li> <a href="https://www.linkedin.com/in/ursula-babeto/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> URSULA</li>   
 </ul>
 
