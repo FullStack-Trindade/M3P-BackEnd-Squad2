@@ -24,9 +24,9 @@
 | 6   | [Cors]         | Mecanismo usado para permitir que uma aplicação Web seja executada em uma origem e acesse recursos de outra origem diferente|
 | 6   | [Moment.js]    | Oferece métodos para a manipulação de datas                                                                                 |
 
-|     | Dependências-DEV | Descrição                                                            |
-| --- | ---------------- | -------------------------------------------------------------------- |
-| 1   | [Nodemon]        | Monitora o sistema de arquivos e reinicia o processo automaticamente |
+|     | Dependências-DEV | Descrição                                                                                                                 |
+| --- | ---------------- | -----------------------------------------------------------------------------------------------------------------------   |
+| 1   | [Nodemon]        | Monitora o sistema de arquivos e reinicia o processo automaticamente                                                      |
 
 ## Técnicas
 
