@@ -7,7 +7,7 @@ Projeto criado com Javascript, Express, bcrypt, jsonwebtoken, YUP e Sequelize.'
 servers:
   # Added by API Auto Mocking Plugin
   - description: BemLab endpoints
-    url: https://virtserver.swaggerhub.com/NSFMT/BemLab/1.0.0
+    url: https://app.swaggerhub.com/apis/NSFMT/BemLab/1.0.0
 paths: 
   /api/usuarios: 
     description: Endpont para requisições sem parametros no path
@@ -1000,9 +1000,11 @@ components:
           type: string
           minLength: 8
           maxLength: 64
+          pattern: "Solomon"
         genero:
           type: string
-          format: enum     
+          format: enum 
+          pattern: "OUTRO"
         cpf:
           type: string
           pattern: ^\d{3}\.\d{3}\.\d{3}-\d{2}$
@@ -1011,12 +1013,15 @@ components:
           pattern: ^\(\d{2}\) \d \d{4}-\d{4}$
         email:
           type: string
+          pattern: "email@bemlab.com.br"
         senha:
           type: string
           minLength: 6
+          pattern: "S3nh@B3mL4b"
         tipo:
           type: string
           format: enum 
+          pattern: "Administrador"
         statusSistema:
           type: boolean
       required:
@@ -1039,8 +1044,10 @@ components:
           type: string
           minLength: 8
           maxLength: 64
+          pattern: "João de Deus"
         genero:
           type: string
+          pattern: "OUTRO"
         data_nascimento:
           type: string
           format: date
@@ -1050,18 +1057,22 @@ components:
         rg:
           type: string
           maxLength: 20
+          pattern: ^\d{2}\.\d{3}\.\d{3}-\d$
         estado_civil:
           type: string
           format: enum
+          pattern: "casado"
         telefone:
           type: string
           pattern: ^\(\d{2}\) \d \d{4}-\d{4}$
         email:
           type: string
+          pattern: "email@bemlab.com.br"
         naturalidade:
           type: string
           minLength: 8
           maxLength: 64
+          pattern: "Florianopolis-SC"
         contato_emergencia:
           type: string
           pattern: ^\(\d{2}\) \d \d{4}-\d{4}$
@@ -1101,20 +1112,28 @@ components:
           type: integer
         cep:
           type: string
+          pattern: ^\d{5}-\d{3}$
         cidade:
-          type: string          
+          type: string  
+          pattern: "Florianopolis"
         estado:
           type: string
+          pattern: "Santa Catarina"
         logradouro:
           type: string
+          pattern: "Rua das Orquídeas"
         numero:
           type: string
+          pattern: "45"
         complemento:
           type: string
+          pattern: "casa"
         bairro:
-          type: string  
+          type: string
+          pattern: "Estreito"
         ponto_referencia:
           type: string
+          pattern: "perto do Boka's"
       required:
         - id
         - cep
@@ -1133,6 +1152,7 @@ components:
           type: string
           minLength: 8
           maxLength: 64
+          pattern: "Ultrassongrafia"
         dataExame:
           type: string
           format: date
@@ -1143,10 +1163,12 @@ components:
           type: string
           minLength: 4
           maxLength: 32
+          pattern: "exame de imagem"
         laboratorio:
           type: string
           minLength: 4
           maxLength: 32
+          pattern: "BemLab Laboratorio"
         docurl:
           type: string
         resultados:
@@ -1178,6 +1200,7 @@ components:
           type: string
           minLength: 8
           maxLength: 64
+          pattern: "Dor de cabeça"
         dataConsulta:
           type: string
           format: date
@@ -1188,12 +1211,15 @@ components:
           type: string
           minLength: 16
           maxLength: 1024
+          pattern: "Cansaço, estresse e dor de cabeça"
         medicacao:
           type: string
+          pattern: "Rivotril"
         dosagem:
           type: string
           minLength: 16
           maxLength: 256
+          pattern: "2 cp ao dia por 5 dias"
         paciente_id:
           description: ID do paciente associado a esta funcionalidade
           type: integer
@@ -1216,6 +1242,7 @@ components:
           type: integer
         nome_dieta:
           type: string
+          pattern: "Low Carb"
         data:
           type: string
           format: date
@@ -1225,8 +1252,10 @@ components:
         tipo:
           type: string
           format: enum
+          pattern: "Low Carb"
         descricao:
           type: string
+          pattern: "Baixa ingestão de carboidratos, vegetais são amplamente liberados"
         paciente_id:
           description: ID do paciente associado a esta funcionalidade
           type: integer
@@ -1250,6 +1279,7 @@ components:
         nomeSerie:
           type: string
           maxLength: 100
+          pattern: "Matador"
         dataExercicio:
           type: string
           format: date
@@ -1259,6 +1289,7 @@ components:
         tipoExercicio:
           type: string
           format: enum
+          pattern: "Força"
         qtdPorSemana:
           type: number
         descricao:
@@ -1292,6 +1323,7 @@ components:
           type: integer
         nomeMedicamento:
           type: string
+          pattern: "Rivotril"
           maxLength: 100
         dataMedicamento:
           type: string
@@ -1302,14 +1334,17 @@ components:
         tipoMedicamento:
           type: string
           format: enum
+          pattern: "Capsula"
         quantidadeMedicamento:
           type: number
         unidadeMedicamento:
           type: string
           format: enum
+          pattern: "g"
         observacoesMedicamento:
           type: string
           maxLength: 100
+          pattern: "nenhum"
         statusDoSistema:
           type: boolean
         paciente_id:
@@ -1338,13 +1373,16 @@ components:
           type: integer
         nome_empresa:
           type: string
+          pattern: "Bem Lab"
         slogan:
-          type: string         
+          type: string
+          pattern: "Seu bem-estar, nossa prioridade"
         cor_primaria:
           type: string
-          format: date
+          pattern: "#000"
         cor_secundaria:
           type: string
+          pattern: "fff"
         imagem_logo:
           type: string      
         
