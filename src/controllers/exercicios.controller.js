@@ -1,5 +1,6 @@
 const Exercicio = require("../models/exercicios.model")
 const Paciente = require("../models/paciente")
+const { criarLog } = require('./logs/log.controller');
 
 const { dataHora, dataFormatada } = require("../services/dataHora.service")
 
@@ -34,6 +35,8 @@ const criarExercicio = async (req, res) => {
 			statusSistema,
 			paciente_id,
 		})
+
+		await criarLog(req, `criou um exercício de ${ exercicio.nomeSerie } para o paciente ${paciente.nome_completo}`);
 
 		return res.status(201).json(exercicio)
 	} catch (error) {
@@ -76,6 +79,9 @@ const atualizarExercicio = async (req, res) => {
 		}
 
 		await Exercicio.update(data, { where: { id: id } })
+
+		const paciente = await Paciente.findByPk(ExercicioExiste.paciente_id);
+		await criarLog(req, `atualizou o exercício de ${ ExercicioExiste.nomeSerie } do paciente ${paciente.nome_completo} `);
 		res.status(200).json({ message: "Exercício atualizado com sucesso" })
 	} catch (error) {
 		console.error(error)
@@ -128,6 +134,7 @@ const buscaExercicioPorNome = async (req, res) => {
 
 const deletaExercicio = async (req, res) => {
 	try {
+		const exercicio= await Exercicio.findByPk(req.params.id);
 		const id = await Exercicio.destroy({
 			where: {
 				id: req.params.id,
@@ -136,7 +143,10 @@ const deletaExercicio = async (req, res) => {
 
 		if (!id) return res.status(404).json({ message: "ID não encontrado" })
 
-		res.status(202).json()
+		const paciente = await Paciente.findByPk(exercicio.paciente_id);
+		await criarLog(req, `excluiu o exercício de ${ exercicio.nomeSerie } do paciente ${paciente.nome_completo}`);
+
+		res.status(202).json({ message: "Dados excluídos com sucesso" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({
