@@ -67,12 +67,12 @@ Verifique o arquivo package.json,.O projeto deve conter todas as tecnologias cit
 ## Contatos:
 
 <ul>
- <li>ALEXANDRE: <a href="LINKEDIN ALEXANDRE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>  </li>
-<li>ANDRÉ <a href="LINKEDIN ANDRÉ" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a></li>   
-<li>DEISE: <a href="LINKEDIN DEISE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a></li>   
-<li>MICHELE: <a href="LINKEDIN MICHELE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a></li>   
-<li>RODOLFO: <a href="LINKEDIN RODOLFO" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a></li>   
-<li>URSULA: <a href="https://www.linkedin.com/in/ursula-babeto/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a></li>   
+ <li> <a href="LINKEDIN ALEXANDRE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> ALEXANDRE  </li>
+<li> <a href="LINKEDIN ANDRÉ" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> ANDRÉ</li>   
+<li> <a href="LINKEDIN DEISE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> DEISE</li>   
+<li> <a href="LINKEDIN MICHELE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> MICHELE</li>   
+<li>: <a href="LINKEDIN RODOLFO" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> RODOLFO</li>   
+<li> <a href="https://www.linkedin.com/in/ursula-babeto/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> URSULA</li>   
 </ul>
 
 [dotenv]: https://www.npmjs.com/package/dotenv
