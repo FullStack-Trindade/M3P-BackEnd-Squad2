@@ -5,6 +5,7 @@ const { usuarioRoutes } = require("./routes/usuario.routes");
 const { exameRoutes } = require("./routes/exames.routes");
 const { dietaRoutes } = require("./routes/dietas.routes");
 const { logRoutes } = require("./routes/log.routes");
+const { medicamentosRoutes } = require("./routes/medicamentos.routes");
 const server = express();
 
 const pacientesRouter = require('./routes/pacientes.routes');
@@ -21,7 +22,7 @@ server.use(express.json());
 
 
 
-server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes );
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes, medicamentosRoutes );
 
 
 

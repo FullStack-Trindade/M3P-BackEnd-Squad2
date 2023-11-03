@@ -9,7 +9,7 @@ const Medicamento = sequelize.define(
         id:  {
             type: INTEGER,
             primaryKey: true,
-            autoIcremenent: true,
+            autoIncrement: true,
             allowNull: false,
         },
         nomeMedicamento:{
@@ -30,7 +30,7 @@ const Medicamento = sequelize.define(
             allowNull: false,
         },
         quantidadeMedicamento: {
-            type: DataTypes.DECIMAL(11,10),
+            type: DataTypes.DECIMAL(15,10),
             allowNull: false,
         },
         unidadeMedicamento:{
@@ -51,7 +51,7 @@ const Medicamento = sequelize.define(
             allowNull: false,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
         },
-        update_at:{
+        updated_at:{
             type: Sequelize.DATE,
             allowNull: false,
             defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
@@ -64,17 +64,7 @@ const Medicamento = sequelize.define(
                 key: "id",
             }
         }, 
-        paciente_nome:{
-            type: Sequelize.STRING,
-            alloqNull: false,
-            references:{
-                model:"pacientes",
-                key:"nome_completo",
-            }
-        },
-
     },
-    {underscored: true, paranoid: true}
 )
 Medicamento.belongsTo(Paciente, {foreignKey: "paciente_id"})
 Paciente.hasMany(Medicamento, {foreignKey: "paciente_id"})
