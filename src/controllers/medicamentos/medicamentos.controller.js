@@ -3,7 +3,6 @@ const Paciente = require("../../models/paciente");
 const { criarLog } = require("../logs/log.controller");
 
 const { dataHora, dataFormatada } = require("../../services/dataHora.service");
-const { request } = require("express");
 
 const criarMedicamento = async (request, response) => {
   try {
@@ -37,10 +36,8 @@ const criarMedicamento = async (request, response) => {
     });
     console.error(medicamento);
 
-    await criarLog(
-      request,
-      `Adicionou o medicamento ${medicamento.nomeMedicamento} para o paciente${paciente.nome_completo}`
-    );
+    await criarLog(request,`Adicionou o medicamento ${medicamento.nomeMedicamento} para o paciente${paciente.nome_completo}`);
+
     response.status(201).json(medicamento);
   } catch (error) {
     console.error(error);
@@ -50,9 +47,11 @@ const criarMedicamento = async (request, response) => {
     });
   }
 };
+
 const atualizarMedicamento = async (request, response) => {
   try {
     const { id } = request.params;
+
     const {
       nomeMedicamento,
       dataMedicamento,
@@ -66,10 +65,11 @@ const atualizarMedicamento = async (request, response) => {
     } = request.body;
 
     const medicamentoExistente = await Medicamento.findByPk(id);
+    console.log(medicamentoExistente);
     if (!medicamentoExistente) {
       return response
         .status(400)
-        .json({ message: "Medicamento nao encontrado" });
+        .json({ message: "Medicamento não encontrado" });
     }
     const data = {
       nomeMedicamento: nomeMedicamento || medicamentoExistente.nomeMedicamento,
@@ -105,20 +105,30 @@ const atualizarMedicamento = async (request, response) => {
   }
 };
 
-const buscarMedicamentos  = async(request, response) =>{
-    try{
-        const medicamentos = await Medicamento.findAll();
-        if(!medicamentos)
-        return response.status(400).json({message: "Medicamento nao encontrado"})
-        response.status(200).json({medicamentos})
-    }catch(error){
-        console.log(error)
-        return response.status(500).json({
-            message: "Nao foi possivel processar a solicitacao",
-            error,
-        })
-    }
-}
+// const buscarMedicamentos  = async(request, response) =>{
+//     try{
+//         const medicamentos = await Medicamento.findAll();
+//         if(!medicamentos)
+//         return response.status(400).json({message: "Medicamento não encontrado"})
+//         response.status(200).json({medicamentos})
+//     }catch(error){
+//         console.log(error)
+//         return response.status(500).json({
+//             message: "Não foi possivel processar a solicitacao",
+//             error,
+//         })
+//     }
+// }
+// Função para listar todas as dietas 
+const buscarMedicamentos = async (req, res) => {
+  try {
+    const medicamentos = await Medicamento.findAll();
+    return res.status(200).json(medicamentos);
+  } catch (error) {
+    console.error("Erro ao listar dietas:", error);
+    return res.status(500).json({ message: "Erro ao listar dietas", error });
+  }
+};
 
 const buscarMedicamento = async (request, response) => {
   try {
@@ -150,6 +160,7 @@ const buscarMedicamento = async (request, response) => {
 const deleteMedicamentos = async (request, response) => {
   try {
     const medicamentos = await Medicamento.findByPk(request.params.id);
+    console.log(medicamentos);
     const id = await Medicamento.destroy({
       where: {
         id: request.params.id,

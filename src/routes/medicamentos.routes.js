@@ -1,42 +1,22 @@
-const express = require("express");
-const router = express.Router();
-
+const { Router } = require("express");
 const validacaoMedicamentos = require("../middlewares/medicamentos.middleware/medicamentos.middleware");
 const validacaoUpdateMedicamentos = require("../middlewares/medicamentos.middleware/updateMedicamentos.middleware");
-
 const {
   criarMedicamento,
   atualizarMedicamento,
   buscarMedicamentos,
   buscarMedicamento,
-  deleteMedicamentos,
+  deleteMedicamentos
 } = require("../controllers/medicamentos/medicamentos.controller");
 
 const { validarToken } = require("../middlewares/validarToken");
 
 const medicamentosRoutes = new Router();
 
-medicamentosRoutes.post(
-  "/medicamentos",
-  validarToken,
-  validacaoMedicamentos,
-  criarMedicamento
-);
-medicamentosRoutes.put(
-  "/medicamentos/:id".validarToken,
-  validacaoUpdateMedicamentos,
-  atualizarMedicamento
-);
+medicamentosRoutes.post("/medicamentos",validarToken,validacaoMedicamentos,criarMedicamento);
+medicamentosRoutes.put("/medicamentos/:id", validarToken,validacaoUpdateMedicamentos,atualizarMedicamento);
 medicamentosRoutes.get("/medicamentos", validarToken, buscarMedicamentos);
-medicamentosRoutes.get(
-  "/medicamentos/:nomePaciente",
-  validarToken,
-  buscarMedicamento
-);
-medicamentosRoutes.delete(
-  "/medicamentos/:id",
-  validarToken,
-  deleteMedicamentos
-);
+medicamentosRoutes.get("/medicamentos/:nome",validarToken,buscarMedicamento);
+medicamentosRoutes.delete("/medicamentos/:id",validarToken,deleteMedicamentos);
 
 module.exports = { medicamentosRoutes };
