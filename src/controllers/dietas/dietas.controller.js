@@ -103,6 +103,24 @@ const listaDietasPorPaciente = async (req, res) => {
   }
 };
 
+// Função para buscar os detalhes de uma dieta por ID
+const buscaDietaPorId = async (req, res) => {
+  const dietaId = req.params.id;
+
+  try {
+    const dieta = await Dieta.findByPk(dietaId);
+
+    if (!dieta) {
+      return res.status(404).json({ message: "Dieta não encontrada" });
+    }
+
+    return res.status(200).json(dieta);
+  } catch (error) {
+    console.error("Erro ao buscar dieta por ID:", error);
+    return res.status(500).json({ message: "Erro ao buscar dieta por ID", error });
+  }
+};
+
 // Função para excluir uma dieta por ID
 const excluiDieta = async (req, res) => {
   const dietaId = req.params.id;
@@ -133,4 +151,5 @@ module.exports = {
   listaDietas,
   excluiDieta,
   listaDietasPorPaciente,
+  buscaDietaPorId,
 };
