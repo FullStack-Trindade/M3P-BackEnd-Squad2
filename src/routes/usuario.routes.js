@@ -3,6 +3,7 @@ const {
   criarUsuario,
   atualizarUsuario,
   buscarUsuarios,
+  buscarUsuarioId,
   deletarUsuario,
   loginUsuario,
   resetarSenha,
@@ -23,6 +24,7 @@ usuarioRoutes.put(
   atualizarUsuario
 );
 usuarioRoutes.get("/usuarios", validarToken, buscarUsuarios);
+usuarioRoutes.get("/usuarios/:id", validarToken, buscarUsuarioId);
 usuarioRoutes.delete("/usuarios/:id", validarToken, deletarUsuario);
 usuarioRoutes.post("/usuarios/login", loginUsuario);
 usuarioRoutes.patch("/usuarios/resetarsenha", resetarSenha);

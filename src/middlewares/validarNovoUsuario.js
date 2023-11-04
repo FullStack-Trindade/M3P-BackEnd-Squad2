@@ -18,24 +18,21 @@ const usuarioSchema = Yup.object().shape({
     ),
   cpf: Yup.string()
     .required("O CPF é obrigatório!")
-    .matches(/^\d{11}$/, "O CPF deve conter apenas números e ter 11 dígitos")
+    .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF deve estar no formato 000.000.000-00')
     .test("unique", "Este usuário já foi cadastrado", async (cpf) => {
       const usuario = await Usuario.findOne({ where: { cpf: cpf } });
       return !usuario;
     }),
   telefone: Yup.string()
     .required("O telefone é obrigatório!")
-    .matches(
-      /^\d{11}$/,
-      "O número de telefone deve ter apenas números e ter 11 dígitos"
-    ),
+    .matches(/\(\d{2}\) \d \d{4}-\d{4}/, 'Telefone deve estar no formato (99) 9 9999-9999'),
   email: Yup.string()
     .required("O email é obrigatório!")
-    .email("O email deve ser válido")
-    .test("unique", "Este usuário já foi cadastrado", async (email) => {
+    .email("O email deve ser válido"),
+    /* .test("unique", "Este usuário já foi cadastrado", async (email) => {
       const usuario = await Usuario.findOne({ where: { email: email } });
       return !usuario;
-    }),
+    }) */
   senha: Yup.string()
     .required("A senha é obrigatória!")
     .min(6, "A senha deve conter no mínimo 6 caracteres"),
@@ -72,10 +69,10 @@ const validarNovoUsuario = async (request, response, next) => {
         errors.splice(index, 1);
       }
       errors.push({ field: uniqueError.field, message: uniqueError.message });
-      return response.status(409).json(errors);
+      return response.status(409).json({errors});
     }
 
-    return response.status(400).json(errors);
+    return response.status(400).json({errors});
   }
 };
 
