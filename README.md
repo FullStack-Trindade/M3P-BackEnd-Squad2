@@ -8,7 +8,7 @@
 > o que pode causar ansiedade e atrasar tratamentos.
 > A plataforma "BemLab" oferece um sistema de gerenciamento e automação nos atendimentos do setor clínico.
 
-<a href="https://app.swaggerhub.com/apis/NSFMT/BemLab/1.0.0" target="_blank"><img src="https://img.shields.io/badge/{···}-Swagger-<white>" target="_blank"></a>
+<a href="[https://app.swaggerhub.com/apis/NSFMT/BemLab/1.0.0](https://app.swaggerhub.com/apis/UrsulaBabeto/SFMT-BemLab/1.0.0)" target="_blank"><img src="https://img.shields.io/badge/{···}-Swagger-<white>"></a>
 
 ## Tecnologias
 
