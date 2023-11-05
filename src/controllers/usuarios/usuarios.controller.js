@@ -113,6 +113,32 @@ const buscarUsuarios = async (request, response) => {
   }
 };
 
+const buscarUsuarioId = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const payload = request.usuario;
+
+    if (payload.tipo !== "ADMINISTRADOR") {
+      return response.status(403).json({
+        message: "Usuário não tem permissões para acessar este recurso",
+      });
+    }
+
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+      return response
+        .status(404)
+        .json({ message: "Não foi possivel encontrar usuario" });
+    }
+    response.status(200).json(usuario);
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({
+      message: "Não foi possível processar a solicitação",
+    });
+  }
+};
+
 const deletarUsuario = async (request, response) => {
   try {
     const { id } = request.params;
@@ -239,6 +265,7 @@ module.exports = {
   criarUsuario,
   atualizarUsuario,
   buscarUsuarios,
+  buscarUsuarioId,
   deletarUsuario,
   loginUsuario,
   resetarSenha,

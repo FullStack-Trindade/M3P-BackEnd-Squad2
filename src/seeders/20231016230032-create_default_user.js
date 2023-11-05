@@ -8,8 +8,8 @@ module.exports = {
       {
         nome_completo: "Administrador",
         genero: "OUTRO",
-        cpf: "22233311144",
-        telefone: "48991337783",
+        cpf: "222.333.111-44",
+        telefone: "(48) 9 9133-7783",
         email: "admin@bemlab.com.br",
         senha: bcrypt.hashSync("admin123", bcrypt.genSaltSync(10)),
         tipo: "ADMINISTRADOR",

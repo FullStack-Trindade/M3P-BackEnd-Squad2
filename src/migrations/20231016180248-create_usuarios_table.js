@@ -19,12 +19,12 @@ module.exports = {
         allowNull: false,
       },
       cpf: {
-        type: Sequelize.STRING(11),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
       telefone: {
-        type: Sequelize.STRING(12),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       email: {

@@ -13,14 +13,8 @@ const usuarioSchema = Yup.object().shape({
     ["FEMININO", "MASCULINO", "OUTRO"],
     "O gênero deve ser FEMININO, MASCULINO ou OUTRO"
   ),
-  cpf: Yup.string().matches(
-    /^\d{11}$/,
-    "O CPF deve conter apenas números e ter 11 dígitos"
-  ),
-  telefone: Yup.string().matches(
-    /^\d{11}$/,
-    "O número de telefone deve ter apenas números e ter 11 dígitos"
-  ),
+  cpf: Yup.string().matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF deve estar no formato 000.000.000-00'),
+  telefone: Yup.string().matches(/\(\d{2}\) \d \d{4}-\d{4}/, 'Telefone deve estar no formato (99) 9 9999-9999'),
   email: Yup.string().email("O email deve ser válido"),
   senha: Yup.string().min(6, "A senha deve conter no mínimo 6 caracteres"),
   tipo: Yup.string().oneOf(

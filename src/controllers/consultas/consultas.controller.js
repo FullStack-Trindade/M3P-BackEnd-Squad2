@@ -76,7 +76,7 @@ const atualizarConsulta = async (request, response) => {
       dataConsulta: dataConsulta || dataFormatada,
       horaConsulta: horaConsulta || dataHora,
       descricaoProblema:
-        descricaoProblema || consultaExistente.descricaoProblema,
+      descricaoProblema || consultaExistente.descricaoProblema,
       medicacao: medicacao || consultaExistente.medicacao,
       dosagem: dosagem || consultaExistente.dosagem,
       paciente_id,

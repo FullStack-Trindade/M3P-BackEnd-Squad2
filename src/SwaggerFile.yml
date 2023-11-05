@@ -1,0 +1,1412 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 'Bem Lab'
+  description: ' API Rest criado com funcionalidades básicas e essenciais (MVP) para o gerenciamento e automação nos atendimentos do setor clinico.
+Projeto criado com Javascript, Express, bcrypt, jsonwebtoken, YUP e Sequelize.'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: BemLab endpoints
+    url: https://app.swaggerhub.com/apis/NSFMT/BemLab/1.0.0
+paths: 
+  /api/usuarios: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** um novo usuario no banco de dados
+      tags:
+        - Usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '201':
+          description: Usuario 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: mensagem de erro validação YUP
+        '401':
+          description: "É necessário estar autenticado para acessar esse recurso ou Token inválido ou expirado"
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '409':
+          description: "Este usuário já foi cadastrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    get:
+      description: Operação **retorna** lista com usuarios cadastrados
+      tags:
+        - Usuario     
+      responses:
+        '200':
+          description: Usuario
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '401':
+          description: "É necessário estar autenticado para acessar esse recurso ou Token inválido ou expirado"
+        '404':
+          description: "Não há usuários cadastrados"  
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+   
+  /api/usuarios/{id}:
+    description: Endpont para requisições com parametros no path
+    delete:
+      description: Operação **deleta** um usuário de acordo com o ID
+      tags:
+        - Usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: "Usuário deletado com sucesso"
+        '401':
+          description: "É necessário estar autenticado para acessar esse recurso ou Token inválido ou expirado"
+        '403':
+          description: "Não é possível deletar o próprio usuário" 
+        '404':
+          description: "Usuario não foi encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"    
+    put:
+      description: Operação **atualiza** os dados de um usuario de acordo com o ID
+      tags:
+        - Usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: "Usuario atualizado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: mensagem de validação do YUP
+        '401':
+          description: "É necessário estar autenticado para acessar esse recurso ou Token inválido ou expirado"
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Usuario não foi encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    patch:
+      description: Operação **reseta a senha** de um usuario 
+      tags:
+        - Usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: "Senha atualizada com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '401':
+          description: "Os dados do formulário são obrigatórios ou Código para resetar senha inválido"
+        '404':
+          description: "Usuario não encontrado"
+        '5XX':
+          description: "Ocorreu um erro ao tentar redefinir a senha"
+ 
+  /api/pacientes: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** um novo paciente no banco de dados
+      tags:
+        - Paciente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Paciente'
+      responses:
+        '201':
+          description: paciente 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+        '400':
+          description: mensagem de erro validação YUP
+        '409':
+          description: CPF ou email já cadastrados
+        '5XX':
+          description: "Erro ao cadastrar paciente"
+    get:
+      description: Operação **retorna** lista com pacientes cadastrados
+      tags:
+        - Paciente
+      responses:
+        '200':
+          description: paciente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente' 
+        '5XX':
+          description: "Erro ao listar pacientes"
+   
+  /api/pacientes/{id}:
+    description: "Endpont para requisições com parametros no path"
+    get:
+      description: Operação **retorna** o paciente buscado pelo ID
+      tags:
+        - Paciente
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: Paciente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+        '400':
+          description: "Paciente não encontrado" 
+        '5XX':
+          description: "Erro ao consultar paciente por ID"
+    delete:
+      description: Operação **deleta** um paciente de acordo com o ID
+      tags:
+        - Paciente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '202':
+          description: "Paciente e endereço excluídos com sucesso"
+        '400':
+          description: "Paciente não encontrado"
+        '5XX':
+          description: "Erro ao excluir paciente"
+    put:
+      description: Operação **atualiza** os dados de um paciente de acordo com o ID
+      tags:
+        - Paciente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+      responses:
+        '200':
+          description: "Paciente atualizado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paciente'
+        '400':
+          description: "Não é permitido atualizar CPF ou RG, Paciente não encontrado ou mensagem de validação do YUP"
+        '5XX':
+          description: "Erro ao atualizar paciente"
+ 
+  /api/exames: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** um novo exame no banco de dados
+      tags:
+        - Exame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Exame'
+      responses:
+        '201':
+          description: exame
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exame'
+        '400':
+          description: "Paciente não encontrado ou mensagem de erro validação YUP"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    get:
+      description: Operação **retorna** lista com exames cadastrados 
+      tags:
+        - Exame        
+      responses:
+        '200':
+          description: exames
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exame' 
+        '400':
+          description: "Exame não encontrado"
+        '5XX':
+          description: "Não foi possivel processar a solicitação"
+   
+  /api/exames/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** exames relacionados a um paciente
+      tags:
+        - Exame
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: exame
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exame' 
+        '400':
+          description: "Exame não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    delete:
+      description: Operação **deleta** exame de acordo com o ID
+      tags:
+        - Exame
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '202':
+          description: "Dados excluídos com sucesso"
+        '400':
+          description: "ID não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    put:
+      description: Operação **atualiza** os dados de um Exame de acordo com o ID
+      tags:
+        - Exame
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Exame'
+      responses:
+        '200':
+          description: "Exame atualizado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exame'
+        '400':
+          description: "Exame não foi encontrado ou mensagem de erro validação YUP " 
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+ 
+  /api/consultas: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** uma nova consulta no banco de dados
+      tags:
+        - Consulta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consulta'
+      responses:
+        '201':
+          description: consulta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Consulta'
+        '400':
+          description: Paciente não encontrado ou mensagem de erro validação YUP
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    get:
+      description: Operação **retorna** lista com consultas  
+      tags:
+        - Consulta
+      responses:
+        '200':
+          description: consultas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Consulta' 
+        '400':
+          description: "consultas não encontradas"
+        '5XX':
+          description: "Não foi possivel processar a solicitação"
+   
+  /api/consultas/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** consultas relacionadas a um paciente
+      tags:
+        - Consulta
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: consulta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Consulta' 
+        '400':
+          description: "Consulta não encontrada"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    delete:
+      description: Operação **deleta** consulta de acordo com o ID
+      tags:
+        - Consulta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '202':
+          description: "Dados excluídos com sucesso"
+        '404':
+          description: "ID não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    put:
+      description: Operação **atualiza** os dados de uma consulta de acordo com o ID
+      tags:
+        - Consulta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Consulta'
+      responses:
+        '200':
+          description: "Dados de consulta atualizados com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Consulta'
+        '400':
+          description: "Consulta não foi encontrado ou mensagem de erro validação YUP"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+ 
+  /api/dietas: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** uma nova dieta no banco de dados
+      tags:
+        - Dieta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dieta'
+      responses:
+        '201':
+          description: dieta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dieta'
+        '400':
+          description: "Paciente não encontrado ou mensagem de validação do YUP"
+        '5XX':
+          description: "Erro ao cadastrar dieta"
+    get:
+      description: Operação **retorna** lista com dietas  
+      tags:
+        - Dieta
+      responses:
+        '200':
+          description: dietas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dieta' 
+        '5XX':
+          description: "Erro ao listar dietas"
+   
+  /api/dietas/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** dietas relacionadas a um paciente
+      tags:
+        - Dieta
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: dietas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dieta' 
+        '400':
+          description: "O paciente não tem nenhuma dieta || Paciente não encontrado"  
+        '5XX':
+          description: "Erro ao listar dietas de um paciente"
+    delete:
+      description: Operação **deleta** dieta de acordo com o ID
+      tags:
+        - Dieta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '202':
+          description: "Dieta e excluída com sucesso"
+        '400':
+          description: "Dieta não encontrada"
+        '5XX':
+          description: "Erro ao excluir dieta"
+    put:
+      description: Operação **atualiza** os dados de uma dieta de acordo com o ID
+      tags:
+        - Dieta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Dieta'
+      responses:
+        '201':
+          description: "Dieta atualizada com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dieta'
+        '400':
+          description: "Dieta não encontrada ou mensagem de validação do YUP"
+        '5XX':
+          description: "Erro ao atualizar dieta"
+ 
+  /api/exercicios: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** uma nova atividade física ao banco de dados
+      tags:
+        - Exercicio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Exercicio'
+      responses:
+        '201':
+          description: exercicio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio'
+        '400':
+          description: mensagem de validação do YUP
+        '404':
+          description: "Paciente não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    get:
+      description: Operação **retorna** lista com Exercicios  
+      tags:
+        - Exercicio
+      responses:
+        '200':
+          description: exercicios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio' 
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+   
+  /api/exercicios/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** exercicios relacionadas a um paciente
+      tags:
+        - Exercicio
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: pacienteData || allData 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio' 
+        '400':
+          description: mensagem de validação do YUP
+        '404':
+          description: "Paciente não encontrado"   
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    delete:
+      description: Operação **deleta** Exercicio de acordo com o ID
+      tags:
+        - Exercicio
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '202':
+          description: ""
+        '404':
+          description: "ID não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    put:
+      description: Operação **atualiza** os dados de uma Exercicio de acordo com o ID
+      tags:
+        - Exercicio
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio'
+      responses:
+        '200':
+          description: "Exercicio atualizado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercicio'
+        '400':
+          description: mensagem de validação do YUP
+        '404':
+          description: "Paciente não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+ 
+  /api/medicamentos: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** um novo medicamento ao banco de dados
+      tags:
+        - Medicamento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medicamento'
+      responses:
+        '201':
+          description: medicamento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+        '400':
+          description: "Paciente não encontrado ou mensagens de validação YUP"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    get:
+      description: Operação **retorna** lista com medicamentos  
+      tags:
+        - Medicamento
+      responses:
+        '200':
+          description: medicamentos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento' 
+        '400': 
+          description: "Medicamento não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+   
+  /api/medicamentos/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** medicamentos relacionadas a um paciente
+      tags:
+        - Medicamento
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: medicamentos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento' 
+        '400':
+          description: "Medicamento não encontrado"
+        '404':
+          description: "Paciente não encontrado"   
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    delete:
+      description: Operação **deleta** medicamento de acordo com o ID
+      tags:
+        - Medicamento
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '202':
+          description: "Dados excluidos com sucesso!"
+        '400':
+          description: "id não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+    put:
+      description: Operação **atualiza** os dados de um medicamento de acordo com o ID
+      tags:
+        - Medicamento
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+      responses:
+        '200':
+          description: "Medicamento atualizado com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicamento'
+        '400':
+          description: "Medicamento não encontrado ou mensagem de validação do YUP"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+ 
+  /api/prontuario: 
+    description: Endpont para requisições sem parametros no path
+    get:
+      description: Operação **retorna** lista com prontuarios cadastrados
+      tags:
+        - Prontuario
+      responses:
+        '200':
+          description: prontuarios
+         # content:
+          #  application/json:
+          #    schema:
+          #      $ref: '#/components/schemas/Prontuario' 
+        '5XX':
+          description: "Erro ao listar registros de prontuario"
+  /api/prontuario/{id}:  
+    get:
+      description: Operação **retorna** prontuarios relacionadas a um paciente
+      tags:
+        - Prontuário
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: prontuarios
+         # content:
+          #  application/json:
+          #    schema:
+          #      $ref: '#/components/schemas/Prontuário' 
+        '400':
+          description: "Prontuário não encontrado"
+        '404':
+          description: "Paciente não encontrado"   
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+ 
+  /api/configuracoes: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **recebe e armazena** uma nova configuração de estilo
+      tags:
+        - Configuracoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Configuracoes'
+      responses:
+        '201':
+          description: "Configuração cadastrada com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuracoes'
+        '400':
+          description: Todos os campos são obrigatórios
+        '5XX':
+          description: "Não foi possível Cadastrar configuração"
+    get:
+      description: Operação **retorna** lista com configuracoes cadastradas
+      tags:
+        - Configuracoes
+      responses:
+        '200':
+          description: configuracoes
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Configurações não foram encontradas"
+        '5XX':
+          description: "Não foi possivel buscar configurações"
+
+  /api/configuracoes/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** configuracão relacionadas a um ID válido
+      tags:
+        - Configuracoes
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: configuracoes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuracoes' 
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Configuração não foi encontrada"
+        '5XX':
+          description: "Não foi possível buscar configuração"
+    delete:
+      description: Operação **deleta** configuracão de acordo com o ID
+      tags:
+        - Configuracoes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: "Configuração deletada com sucesso"
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Configuração não foi encontrada"
+        '5XX':
+          description: "Não foi possível deletar configuração"
+    put:
+      description: Operação **atualiza** os dados de uma configuracão de acordo com o ID
+      tags:
+        - Configuracoes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        description: novos dados
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Configuracoes'
+      responses:
+        '200':
+          description: "Configuração atualizada com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuracoes'
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Configuração não foi encontrada"
+        '5XX':
+          description: "Não foi possível Atualizar configuração"
+    post:
+      description: Operação **restaura** uma configuração de estilo
+      tags:
+        - Configuracoes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Configuracoes'
+      responses:
+        '200':
+          description: "Configuração restaurada com sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Configuracoes'
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Configurações não foram encontradas"
+        '5XX':
+          description:  "Não foi possível restaurar configuração"
+
+  /api/log: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **insere** um novo log no banco de dados
+      tags:
+        - Log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Log'
+      responses:
+        'default':
+          description: "criou uma consulta para o dia ${ data } para o paciente ${paciente.nome_completo}"
+    get:
+      description: Operação **retorna** lista com logs cadastradas
+      tags:
+        - Log
+      responses:
+        '200':
+          description: logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log' 
+        '5XX':
+          description: "Erro ao listar registros de log"
+
+   
+       
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        usuarioId:
+          type: integer
+        nomeCompleto:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "Solomon"
+        genero:
+          type: string
+          format: enum 
+          pattern: "OUTRO"
+        cpf:
+          type: string
+          pattern: ^\d{3}\.\d{3}\.\d{3}-\d{2}$
+        telefone:
+          type: string
+          pattern: ^\(\d{2}\) \d \d{4}-\d{4}$
+        email:
+          type: string
+          pattern: "email@bemlab.com.br"
+        senha:
+          type: string
+          minLength: 6
+          pattern: "S3nh@B3mL4b"
+        tipo:
+          type: string
+          format: enum 
+          pattern: "Administrador"
+        statusSistema:
+          type: boolean
+      required:
+        - usuarioId
+        - nomeCompleto
+        - genero
+        - cpf
+        - telefone
+        - email
+        - senha
+        - tipo
+        - statusSistema
+    
+    Paciente:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome_completo:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "João de Deus"
+        genero:
+          type: string
+          pattern: "OUTRO"
+        data_nascimento:
+          type: string
+          format: date
+        cpf:
+          type: string
+          pattern: ^\d{3}\.\d{3}\.\d{3}-\d{2}$
+        rg:
+          type: string
+          maxLength: 20
+          pattern: ^\d{2}\.\d{3}\.\d{3}-\d$
+        estado_civil:
+          type: string
+          format: enum
+          pattern: "casado"
+        telefone:
+          type: string
+          pattern: ^\(\d{2}\) \d \d{4}-\d{4}$
+        email:
+          type: string
+          pattern: "email@bemlab.com.br"
+        naturalidade:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "Florianopolis-SC"
+        contato_emergencia:
+          type: string
+          pattern: ^\(\d{2}\) \d \d{4}-\d{4}$
+        lista_alergias:
+          type: string
+        lista_cuidados:
+          type: string
+        nome_convenio: 
+          type: string 
+        numero_convenio: 
+          type: string 
+        validade_convenio: 
+          type: string 
+        status:
+          type: boolean
+        endereco_id:
+          $ref: '#/components/schemas/Endereco'
+      required:
+        - id
+        - nome_completo
+        - genero
+        - data_nascimento
+        - cpf
+        - rg
+        - estado_civil
+        - telefone
+        - email
+        - naturalidade
+        - contato_emergencia
+        - status
+        - endereco_id
+        
+    Endereco:
+      type: object
+      properties:
+        id:
+          type: integer
+        cep:
+          type: string
+          pattern: ^\d{5}-\d{3}$
+        cidade:
+          type: string  
+          pattern: "Florianopolis"
+        estado:
+          type: string
+          pattern: "Santa Catarina"
+        logradouro:
+          type: string
+          pattern: "Rua das Orquídeas"
+        numero:
+          type: string
+          pattern: "45"
+        complemento:
+          type: string
+          pattern: "casa"
+        bairro:
+          type: string
+          pattern: "Estreito"
+        ponto_referencia:
+          type: string
+          pattern: "perto do Boka's"
+      required:
+        - id
+        - cep
+        - cidade
+        - estado
+        - logradouro
+        - numero
+        - bairro
+
+    Exame:
+      type: object
+      properties:
+        id:
+          type: integer
+        nomeExame:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "Ultrassongrafia"
+        dataExame:
+          type: string
+          format: date
+        horaExame:
+          type: string
+          pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+        tipoExame:
+          type: string
+          minLength: 4
+          maxLength: 32
+          pattern: "exame de imagem"
+        laboratorio:
+          type: string
+          minLength: 4
+          maxLength: 32
+          pattern: "BemLab Laboratorio"
+        docurl:
+          type: string
+        resultados:
+          type: string
+          minLength: 16
+          maxLength: 1024
+        paciente_id:
+          description: ID do paciente associado a esta funcionalidade
+          type: integer
+        statusSistema:
+          type: boolean
+        
+      required:
+        - id
+        - nomeExame
+        - dataExame
+        - horaExame
+        - tipoExame
+        - laboratorio
+        - resultados
+        - statusSistema
+
+    Consulta:
+      type: object
+      properties:
+        id:
+          type: integer
+        motivoConsulta:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "Dor de cabeça"
+        dataConsulta:
+          type: string
+          format: date
+        horaConsulta:
+          type: string
+          pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+        descricaoProblema:
+          type: string
+          minLength: 16
+          maxLength: 1024
+          pattern: "Cansaço, estresse e dor de cabeça"
+        medicacao:
+          type: string
+          pattern: "Rivotril"
+        dosagem:
+          type: string
+          minLength: 16
+          maxLength: 256
+          pattern: "2 cp ao dia por 5 dias"
+        paciente_id:
+          description: ID do paciente associado a esta funcionalidade
+          type: integer
+        statusSistema:
+          type: boolean
+        
+      required:
+        - id
+        - motivoConsulta
+        - dataConsulta
+        - horaConsulta
+        - descricaoProblema
+        - dosagem
+        - statusSistema
+
+    Dieta:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome_dieta:
+          type: string
+          pattern: "Low Carb"
+        data:
+          type: string
+          format: date
+        horario:
+          type: string
+          pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+        tipo:
+          type: string
+          format: enum
+          pattern: "Low Carb"
+        descricao:
+          type: string
+          pattern: "Baixa ingestão de carboidratos, vegetais são amplamente liberados"
+        paciente_id:
+          description: ID do paciente associado a esta funcionalidade
+          type: integer
+        status_sistema:
+          type: boolean
+        
+      required:
+        - id
+        - nome_dieta
+        - data
+        - horario
+        - tipo
+        - descricao
+        - statu_sistema
+
+    Exercicio:
+      type: object
+      properties:
+        exercicioId:
+          type: integer
+        nomeSerie:
+          type: string
+          maxLength: 100
+          pattern: "Matador"
+        dataExercicio:
+          type: string
+          format: date
+        horaExercicio:
+          type: string
+          pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+        tipoExercicio:
+          type: string
+          format: enum
+          pattern: "Força"
+        qtdPorSemana:
+          type: number
+        descricao:
+          type: string
+          maxLength: 1000
+        paciente_id:
+          description: ID do paciente associado a esta funcionalidade
+          type: integer
+        status_sistema:
+          type: boolean
+        paciente_nome:
+          type: string
+          description: nome do paciente associado a esta funcionalidade
+      
+      required:
+        - exercicioId
+        - nomeSerie
+        - dataExercicio
+        - horaExercicio
+        - tipoExercicio
+        - qtdPorSemana
+        - descricao
+        - paciente_id
+        - status_sistema
+        - paciente_nome
+  
+    Medicamento:
+      type: object
+      properties:
+        id:
+          type: integer
+        nomeMedicamento:
+          type: string
+          pattern: "Rivotril"
+          maxLength: 100
+        dataMedicamento:
+          type: string
+          format: date
+        horaMedicamento:
+          type: string
+          pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$
+        tipoMedicamento:
+          type: string
+          format: enum
+          pattern: "Capsula"
+        quantidadeMedicamento:
+          type: number
+        unidadeMedicamento:
+          type: string
+          format: enum
+          pattern: "g"
+        observacoesMedicamento:
+          type: string
+          maxLength: 100
+          pattern: "nenhum"
+        statusDoSistema:
+          type: boolean
+        paciente_id:
+          description: ID do paciente associado a esta funcionalidade
+          type: integer
+        paciente_nome:
+          type: string
+          description: nome do paciente associado a esta funcionalidade
+
+      required:
+        - id
+        - nomeMedicamento
+        - dataMedicamento
+        - horaMedicamento
+        - tipoMedicamento
+        - quantidadeMedicamento
+        - unidadeMedicamento
+        - observacoesMedicamento
+        - statusDoSistema
+        - paciente_id
+  
+    Configuracoes:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome_empresa:
+          type: string
+          pattern: "Bem Lab"
+        slogan:
+          type: string
+          pattern: "Seu bem-estar, nossa prioridade"
+        cor_primaria:
+          type: string
+          pattern: "#000"
+        cor_secundaria:
+          type: string
+          pattern: "fff"
+        imagem_logo:
+          type: string      
+        
+      required:
+        - id
+        - nome_empresa
+        - slogan
+        - cor_primaria
+        - cor_secundaria
+        - imagem_logo
+        
+    Log:
+      type: object
+      properties:
+        id: 
+          type: integer
+        registro: 
+          type: string
+        dataHora:
+          type: string
+          format: date
+      
+      required:
+        - id
+        - registro
+        - dataHora
+     
