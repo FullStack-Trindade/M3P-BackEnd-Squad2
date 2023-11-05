@@ -75,13 +75,13 @@ Verifique o arquivo package.json,.O projeto deve conter todas as tecnologias cit
 <div> <a href="https://www.linkedin.com/in/ursula-babeto/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> URSULA</div>   
 </ul>
 
-[dotenv]: https://www.npmjs.com/package/dotenv
-[node]: https://nodejs.org/dist/latest-v18.x/docs/api/
+[dotenv]: https://www.dotenv.org/docs/
+[node]: https://nodejs.org/en/docs
 [express]: https://expressjs.com/
 [yup]: https://www.jsdocs.io/package/yup
 [sequelize]: https://sequelize.org/docs/v6/getting-started/
 [pg/pg-hstore]: https://sequelize.org/docs/v6/getting-started/
 [nodemon]: https://nodemon.io
 [Bcrypt]: https://www.npmjs.com/package/bcrypt
-[Cors]: https://www.npmjs.com/package/cors
+[Cors]: https://expressjs.com/en/resources/middleware/cors.html
 [Moment.js]: https://momentjs.com/
