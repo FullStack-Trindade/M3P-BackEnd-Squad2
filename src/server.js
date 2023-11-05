@@ -12,6 +12,7 @@ const pacientesRouter = require('./routes/pacientes.routes');
 const consultaRoutes  = require('./routes/consultas.routes');
 const exerciciosRoutes = require('./routes/exercicios.routes')
 const { configuracaoRoutes } = require("./routes/configuracoes.routes");
+const { prontuariosRoutes } = require("./routes/prontuarios.routes");
 
 server.use(
   cors({
@@ -22,7 +23,7 @@ server.use(
 server.use(express.json());
 
 
-server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes, configuracaoRoutes, medicamentosRoutes );
+server.use('/api', usuarioRoutes, pacientesRouter, consultaRoutes, exameRoutes, dietaRoutes, exerciciosRoutes, logRoutes, configuracaoRoutes, medicamentosRoutes, prontuariosRoutes );
 
 
 server.get("/", (request, response) => {
