@@ -1315,6 +1315,396 @@ Exemplo de resposta:
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
+### **Exame**
+
+####  Cadastra exame
+
+```http
+  POST /api/exames
+```
+Parâmetro id de paciente é vinculado a criação do exame.
+
+
+Request JSON exemplo
+```http
+/api/exames
+
+{
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "algum resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+Exemplo de resposta:
+
+```http
+
+{
+	"id": 1,
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "algum resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | exame|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Busca exame
+
+```http
+  GET /api/exames
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"id": 1,
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "algum resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+},
+{
+	"id": 2,
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "algum resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+},
+{
+	"id": 3,
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "algum resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | exames|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Busca exame por nome
+
+```http
+  GET /api/exames/:nome
+```
+Request JSON exemplo
+```http
+/api/exames/João%20Leite
+
+```
+Exemplo de resposta:
+
+```http
+
+{
+	"id": 4,
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "algum resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | exames|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Atualiza um exame
+
+```http
+  PUT /api/exames/:id
+```
+Request JSON exemplo
+```http
+/api/exames/1
+
+{
+	"id": 1,
+  "nomeExame": "Ultrassongrafia",
+  "dataExame": "2023-11-05",
+  "horaExame": "07:43:37",
+  "tipoExame": "exame de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "outro resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"message": "Exame atualizado com sucesso"
+}
+
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | "Exame atualizado com sucesso"|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+####  Deleta um exame
+
+```http
+  DELETE /api/exames/:id
+```
+Request JSON exemplo
+```http
+/api/exames/1
+
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"message": "	
+Dados excluídos com sucesso"
+}
+
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` |"Dados excluídos com sucesso"|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+### **COnsulta**
+
+####  Cadastra consulta
+
+```http
+  POST /api/consultas
+```
+Parâmetro id de paciente é vinculado a criação do consulta.
+
+
+Request JSON exemplo
+```http
+/api/consultas
+
+{
+  "motivoConsulta": "Dor de cabeça",
+  "dataConsulta": "2023-11-05",
+  "horaConsulta": "11:52:30",
+  "descricaoProblema": "Cansaço, estresse e dor de cabeça",
+  "medicacao": "Rivotril",
+  "dosagem": "2 cp ao dia por 5 dias",
+  "paciente_id": 0,
+  "statusSistema": true
+}
+```
+Exemplo de resposta:
+
+```http
+
+{
+  "id": 2,
+  "motivoConsulta": "Dor de cabeça",
+  "dataConsulta": "2023-11-05",
+  "horaConsulta": "11:52:30",
+  "descricaoProblema": "Cansaço, estresse e dor de cabeça",
+  "medicacao": "Rivotril",
+  "dosagem": "2 cp ao dia por 5 dias",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | consulta|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Busca consulta
+
+```http
+  GET /api/consultas
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+  "id": 1,
+  "motivoConsulta": "Dor de cabeça",
+  "dataConsulta": "2023-11-05",
+  "horaConsulta": "11:52:30",
+  "descricaoProblema": "Cansaço, estresse e dor de cabeça",
+  "medicacao": "Rivotril",
+  "dosagem": "2 cp ao dia por 5 dias",
+  "paciente_id": 0,
+  "statusSistema": true
+},{
+  "id": 2,
+  "motivoConsulta": "Dor de cabeça",
+  "dataConsulta": "2023-11-05",
+  "horaConsulta": "11:52:30",
+  "descricaoProblema": "Cansaço, estresse e dor de cabeça",
+  "medicacao": "Rivotril",
+  "dosagem": "2 cp ao dia por 5 dias",
+  "paciente_id": 0,
+  "statusSistema": true
+},{
+  "id": 3,
+  "motivoConsulta": "Dor de cabeça",
+  "dataConsulta": "2023-11-05",
+  "horaConsulta": "11:52:30",
+  "descricaoProblema": "Cansaço, estresse e dor de cabeça",
+  "medicacao": "Rivotril",
+  "dosagem": "2 cp ao dia por 5 dias",
+  "paciente_id": 0,
+  "statusSistema": true
+}
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | consultas|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Busca consulta por id
+
+```http
+  GET /api/consultas/:id
+```
+Request JSON exemplo
+```http
+/api/consultas/1
+
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+  "id": 2,
+  "motivoConsulta": "Dor de cabeça",
+  "dataConsulta": "2023-11-05",
+  "horaConsulta": "11:52:30",
+  "descricaoProblema": "Cansaço, estresse e dor de cabeça",
+  "medicacao": "Rivotril",
+  "dosagem": "2 cp ao dia por 5 dias",
+  "paciente_id": 0,
+  "statusSistema": true
+}
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | consulta|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Atualiza um consulta
+
+```http
+  PUT /api/consultas/:id
+```
+Request JSON exemplo
+```http
+/api/consultas/1
+
+{
+  "nomeconsulta": "Ultrassongrafia",
+  "dataconsulta": "2023-11-05",
+  "horaconsulta": "07:43:37",
+  "tipoconsulta": "consulta de imagem",
+  "laboratorio": "BemLab Laboratorio",
+  "docurl": "",
+  "resultados": "outro resultado enviado ",
+  "paciente_id": 1,
+  "statusSistema": true
+}
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"message": "Dados de consulta atualizados com sucesso"
+}
+
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | "Dados de consulta atualizados com sucesso"|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+####  Deleta um consulta
+
+```http
+  DELETE /api/consultas/:id
+```
+Request JSON exemplo
+```http
+/api/consultas/1
+
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"message": "	
+Dados excluídos com sucesso"
+}
+
+```
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` |"Dados excluídos com sucesso"|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+
 ## Melhorias
 
 > Como ponto de melhoria eu André tenho como sugestão a inserção de um sistema de envio de emails para que ao resetar senha, envie um link personalizado para a rota de resetar senha onde o usuário possa inserir uma nova senha, com esse processo acredito que traria um pouco mais de segurança ao sistema.
