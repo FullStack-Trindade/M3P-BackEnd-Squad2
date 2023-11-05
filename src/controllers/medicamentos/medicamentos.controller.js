@@ -147,7 +147,7 @@ const buscarMedicamento = async (request, response) => {
         .status(400)
         .send({ message: "Medicamento nao encontrado" });
     }
-    return response.status(200).send({ medicamentos });
+    return response.status(200).send( medicamentos );
   } catch (error) {
     console.log(error);
     return response.status(500).json({
