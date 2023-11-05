@@ -1360,7 +1360,7 @@ Exemplo de resposta:
 ```
 | Response Status       | Descrição                           |
 |  :--------- | :---------------------------------- |
-|  `200` | exame|
+|  `201` | exame|
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
@@ -1509,7 +1509,7 @@ Exemplo de resposta:
 ```
 | Response Status       | Descrição                           |
 |  :--------- | :---------------------------------- |
-|  `200` |"Dados excluídos com sucesso"|
+|  `202` |"Dados excluídos com sucesso"|
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 ### **Consulta**
@@ -1555,7 +1555,7 @@ Exemplo de resposta:
 ```
 | Response Status       | Descrição                           |
 |  :--------- | :---------------------------------- |
-|  `200` | consulta|
+|  `201` | consulta|
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
@@ -1698,7 +1698,7 @@ Exemplo de resposta:
 ```
 | Response Status       | Descrição                           |
 |  :--------- | :---------------------------------- |
-|  `200` |"Dados excluídos com sucesso"|
+|  `202` |"Dados excluídos com sucesso"|
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
