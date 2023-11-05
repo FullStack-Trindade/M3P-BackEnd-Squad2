@@ -52,6 +52,308 @@ Verifique o arquivo package.json,.O projeto deve conter todas as tecnologias cit
 ## Rotas e funcionalidades
 
 ### **Usuario**
+
+####  Login de usuário
+
+```http
+  POST /api/usuarios/login
+```
+Parâmetro email e senha devem ser passados no body da requisição.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `email` | `string` | **Obrigatório** Email do usuario|
+| `senha` | `string` | **Obrigatório** Senha do usuario|
+
+
+Request JSON exemplo
+```http
+/api/usuarios/login
+
+{
+	"email": "andre@bemlab.com.br",
+	"senha": "andre123"
+}
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"message": "Usuario andre@bemlab.com.br logado com sucesso",
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOjEsIm5vbWVDb21wbGV0byI6IkFkbWluaXN0cmFkb3IiLCJlbWFpbCI6ImFkbWluQGJlbWxhYi5jb20uYnIiLCJ0aXBvIjoiQURNSU5JU1RSQURPUiIsImlhdCI6MTY5OTIwNzMzMSwiZXhwIjoxNjk5MjkzNzMxfQ.mhjLhSjFWMfYcFeV1UuGH3cGpkCLV37SxErnk_oXNQA"
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (Ok) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar cadastrar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+#### Resetar senha de usuário
+
+```http
+  PATCH /api/usuarios/resetarsenha
+```
+Parâmetro email, novaSenha e codigo devem ser passados no body da requisição.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `email` | `string` | **Obrigatório** Email do usuario|
+| `senha` | `string` | **Obrigatório** Senha do usuario|
+| `codigo` | `string` | **Obrigatório** Codigo de verificação disponibilizado ao usuario para reset de senha|
+
+
+Request JSON exemplo
+```http
+/api/usuarios/resetarsenha
+
+{
+	"email": "andre@bemlab.com.br",
+	"novaSenha": "andre123456",
+	"codigo": "BEMLAB@3577"
+}
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"message": "Senha atualizada com sucesso"
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (Ok) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar cadastrar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+#### Cadastro de Usuários
+
+```http
+  POST /api/usuarios
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `usuarioId`      | `int` | **Autoincremental**. Chave primaria |
+| `nomeCompleto` | `string` | **Obrigatório**. Nome Completo, máx 64 e mín de 8 caracteres|
+| `genero` | `ENUM` | **Obrigatório**  Gênero do usuário com dropdown de opções pré-definidas.|
+| `cpf` | `string` | **Obrigatório**. CPF do usuário, único, formato 000.000.000-00|
+| `telefone` | `string` |**Obrigatório** Telefone do usuário,  formato (99) 9 9999-99999 |
+| `email` | `string` |**Obrigatório** Email do usuário |
+| `senha` | `string` |**Obrigatório** Senha do usuário com mín de 6 caracteres |
+| `tipo` | `enum` | **Obrigatório**. Tipo de Usuário, opções: "ADMINISTRADOR", "MEDICO", "ENFERMEIRO"|
+| `status_sistema` | `boolean` | Status do usuário no sistema, Valores: 'true','false'|
+
+Request JSON exemplo
+```http
+{
+	"nomeCompleto": "André Luiz",
+	"genero": "MASCULINO",
+	"cpf": "111.222.333-44",
+	"telefone": "(48) 9 9844-7838",
+	"email": "andre@bemlab.com.br",
+	"senha": "andre123",
+	"tipo": "MEDICO"
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `201` | (CREATED) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar cadastrar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `409` | (Conflict) em caso de tentar cadastrar cpf já existente|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+##
+#### Atualização de Usuário
+
+```http
+  PUT /api/usuarios/:id
+```
+
+Aceita todos parâmetros do cadastro de usuario com excessão do cpf e email que não podem ser atualizados
+
+Parâmetro id (numero inteiro valido) é necessário ser passado como Route Params na rota para atualizar usuário.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `int` | **Obrigatório** número inteiro chave primaria|
+
+
+Request JSON exemplo
+```http
+/api/usuarios/2
+```
+```http
+{
+	"tipo": "MEDICO"
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar atualizar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+Exemplo de resposta:
+```http
+	{
+		"message": "Usuário atualizado com sucesso"
+	}	
+
+```
+
+##
+#### Listagem de todos usuários
+
+```http
+  GET /api/usuarios
+```
+Request JSON exemplo
+```http
+/api/usuarios
+```
+
+Exemplo de resposta:
+
+```http
+{
+	"usuarios": [
+		{
+			"usuarioId": 1,
+			"nomeCompleto": "Administrador",
+			"genero": "OUTRO",
+			"cpf": "222.333.111-44",
+			"telefone": "(48) 9 9133-7783",
+			"email": "admin@bemlab.com.br",
+			"senha": "$2b$10$Mg21TmIuUSDrySKPgIH0dOuPaArYoI3WRqwsWoTQxvisOCpxvkQDq",
+			"tipo": "ADMINISTRADOR",
+			"statusSistema": true,
+			"createdAt": "2023-11-04T00:31:26.224Z",
+			"updatedAt": "2023-11-04T00:31:26.224Z",
+			"deletedAt": null
+		},
+		{
+			"usuarioId": 4,
+			"nomeCompleto": "Mauricio Tester",
+			"genero": "MASCULINO",
+			"cpf": "111.334.456-66",
+			"telefone": "(44) 9 8879-7659",
+			"email": "mauricioTester@gmail.com",
+			"senha": "$2b$10$yKKeM0aKovWil7UjM94EWO0buwVnucGyR2i9qEEQ4dCN3H92dhLpe",
+			"tipo": "ENFERMEIRO",
+			"statusSistema": true,
+			"createdAt": "2023-11-04T02:35:40.768Z",
+			"updatedAt": "2023-11-04T20:58:15.155Z",
+			"deletedAt": null
+		},
+		{
+			"usuarioId": 2,
+			"nomeCompleto": "André Luiz",
+			"genero": "MASCULINO",
+			"cpf": "111.222.333-44",
+			"telefone": "(48) 9 9844-7838",
+			"email": "andre@bemlab.com.br",
+			"senha": "$2b$10$C1UIwM.e5lRlXShxEHWpPuUJupyExHhG7dwhrRdeMBPNkkpJnsUW.",
+			"tipo": "MEDICO",
+			"statusSistema": true,
+			"createdAt": "2023-11-04T00:32:58.906Z",
+			"updatedAt": "2023-11-05T18:02:56.551Z",
+			"deletedAt": null
+		}
+	]
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar listar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+#### Listagem de Usuário por id
+
+```http
+  GET /api/usuarios/:id
+```
+Parâmetro id (numero inteiro valido)  é necessário ser passado como Route Params na rota para listar o usuário especifico por seu id. 
+
+Request JSON exemplo
+```http
+/api/usuarios/2
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"usuarioId": 2,
+	"nomeCompleto": "André Luiz",
+	"genero": "MASCULINO",
+	"cpf": "111.222.333-44",
+	"telefone": "(48) 9 9844-7838",
+	"email": "andre@bemlab.com.br",
+	"senha": "$2b$10$C1UIwM.e5lRlXShxEHWpPuUJupyExHhG7dwhrRdeMBPNkkpJnsUW.",
+	"tipo": "MEDICO",
+	"statusSistema": true,
+	"createdAt": "2023-11-04T00:32:58.906Z",
+	"updatedAt": "2023-11-05T18:02:56.551Z",
+	"deletedAt": null
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar listar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+
+####  Exclusão de usuário
+
+```http
+  DELETE /api/usuarios/:id
+```
+Parâmetro id (numero inteiro valido) é necessário ser passado como Route Params na rota para excluir o usuário.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `int` | **Obrigatório** número inteiro chave primaria|
+
+Request JSON exemplo
+```http
+/api/usuarios/6
+```
+
+Retorna um
+```http
+	{ 
+		message: "Usuário deletado com sucesso" 
+	}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (Ok) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar excluir sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+
 ### **Paciente**
 
 #### Cadastro de Paciente
@@ -601,7 +903,376 @@ Não há response no body em caso de sucesso
 ### **Exercicio**
 ### **Medicamento**
 ### **Prontuario**
+
+#### Listagem de todos Prontuarios
+
+```http
+  GET /api/prontuarios
+```
+Request JSON exemplo
+```http
+/api/prontuarios
+```
+
+Exemplo de resposta:
+
+```http
+[
+	{
+		"id": 1,
+		"nome_completo": "João da Silva",
+		"genero": "MASCULINO",
+		"data_nascimento": "1990-05-15",
+		"cpf": "123.456.789-01",
+		"rg": "567890",
+		"estado_civil": "CASADO",
+		"telefone": "(11) 1234-5678",
+		"email": "joao.silva@example.com",
+		"naturalidade": "São Paulo",
+		"contato_emergencia": "(11) 9876-5432",
+		"lista_alergias": "Nenhuma",
+		"lista_cuidados": "Nenhum",
+		"nome_convenio": "Plano de Saúde ABC",
+		"numero_convenio": "12345",
+		"validade_convenio": "2025-12-31",
+		"status": true,
+		"endereco_id": 1,
+		"createdAt": "2023-11-04T00:31:26.244Z",
+		"updatedAt": "2023-11-04T00:31:26.244Z"
+	},
+	{
+		"id": 2,
+		"nome_completo": "Maria Santos",
+		"genero": "FEMININO",
+		"data_nascimento": "1985-03-20",
+		"cpf": "987.654.321-09",
+		"rg": "432156",
+		"estado_civil": "CASADO",
+		"telefone": "(22) 9876-5432",
+		"email": "maria.santos@example.com",
+		"naturalidade": "Rio de Janeiro",
+		"contato_emergencia": "(22) 1234-5678",
+		"lista_alergias": "Pólen",
+		"lista_cuidados": "Alérgica a frutos do mar",
+		"nome_convenio": "Plano de Saúde XYZ",
+		"numero_convenio": "54321",
+		"validade_convenio": "2026-12-31",
+		"status": true,
+		"endereco_id": 2,
+		"createdAt": "2023-11-04T00:31:26.244Z",
+		"updatedAt": "2023-11-04T00:31:26.244Z"
+	},
+	{
+		"id": 3,
+		"nome_completo": "Carlos Silva",
+		"genero": "MASCULINO",
+		"data_nascimento": "1980-08-10",
+		"cpf": "789.123.456-01",
+		"rg": "987654",
+		"estado_civil": "SOLTEIRO",
+		"telefone": "(33) 8765-4321",
+		"email": "carlos.silva@example.com",
+		"naturalidade": "Belo Horizonte",
+		"contato_emergencia": "(33) 9876-5432",
+		"lista_alergias": "Nenhuma",
+		"lista_cuidados": "Nenhum",
+		"nome_convenio": "Sem convênio",
+		"numero_convenio": "",
+		"validade_convenio": null,
+		"status": true,
+		"endereco_id": 3,
+		"createdAt": "2023-11-04T00:31:26.244Z",
+		"updatedAt": "2023-11-04T00:31:26.244Z"
+	}
+]
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+#### Listagem de Prontuario por id
+
+```http
+  GET /api/prontuarios/:id
+```
+Parâmetro id (numero inteiro valido)  é necessário ser passado como Route Params na rota para listar o prontuario especifico por seu id. 
+
+Request JSON exemplo
+```http
+/api/prontuarios/1
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"id": 1,
+	"nome_completo": "João da Silva",
+	"genero": "MASCULINO",
+	"data_nascimento": "1990-05-15",
+	"cpf": "123.456.789-01",
+	"rg": "567890",
+	"estado_civil": "CASADO",
+	"telefone": "(11) 1234-5678",
+	"email": "joao.silva@example.com",
+	"naturalidade": "São Paulo",
+	"contato_emergencia": "(11) 9876-5432",
+	"lista_alergias": "Nenhuma",
+	"lista_cuidados": "Nenhum",
+	"nome_convenio": "Plano de Saúde ABC",
+	"numero_convenio": "12345",
+	"validade_convenio": "2025-12-31",
+	"status": true,
+	"endereco_id": 1,
+	"consultas": [],
+	"exames": [],
+	"medicamentos": []
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
 ### **Configuracoes**
+
+#### Cadastro de Configurações
+
+```http
+  POST /api/configuracoes
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id`      | `int` | **Autoincremental**. Chave primaria |
+| `nomeEmpresa` | `string` | **Obrigatório**. Nome Empresa|
+| `slogan` | `string` | **Opcional**  Slogan da empresa.|
+| `corPrimaria` | `string` | **Obrigatório**. Cor primaria|
+| `corSecundaria` | `string` |**Obrigatório** Cor secundaria |
+| `imagemLogo` | `string` |**Obrigatório** URL da imagem de logo da empresa |
+
+Request JSON exemplo
+```http
+{
+	"nomeEmpresa": "LabTestMedical",
+	"slogan": "Testando a configuração",
+	"corPrimaria": "#6734eb",
+	"corSecundaria": "#9234eb",
+	"imagemLogo": "https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png"
+}
+```
+
+Exemplo de Resposta
+```http
+{
+	"message": "Configuração cadastrada com sucesso",
+	"data": {
+		"id": 1,
+		"nomeEmpresa": "LabTestMedical",
+		"slogan": "Testando a configuração",
+		"corPrimaria": "#6734eb",
+		"corSecundaria": "#9234eb",
+		"imagemLogo": "https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png",
+		"updatedAt": "2023-11-04T00:36:21.007Z",
+		"createdAt": "2023-11-04T00:36:21.007Z",
+		"deletedAt": null
+	}
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `201` | (CREATED) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar cadastrar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+##
+#### Atualização de Configurações
+
+```http
+  PUT /api/configuracoes/:id
+```
+
+Aceita todos parâmetros do cadastro de configurações
+
+Parâmetro id (numero inteiro valido) é necessário ser passado como Route Params na rota para atualizar configuracoes.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `int` | **Obrigatório** número inteiro chave primaria|
+
+
+Request JSON exemplo
+```http
+/api/configuracoes/1
+```
+```http
+{
+	"nomeEmpresa": "TestLabMedical"
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar atualizar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+Exemplo de resposta:
+```http
+	{
+	"message": "Configuração atualizada com sucesso",
+	"data": {
+		"nomeEmpresa": "TestLabMedical",
+		"slogan": "Testando a configuração",
+		"corPrimaria": "#6734eb",
+		"corSecundaria": "#9234eb",
+		"imagemLogo": "https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png"
+	}
+}
+
+```
+
+##
+#### Listagem de todas Configurações
+
+```http
+  GET /api/configuracoes
+```
+Request JSON exemplo
+```http
+/api/configuracoes
+```
+
+Exemplo de resposta:
+
+```http
+[
+	{
+		"id": 1,
+		"nomeEmpresa": "LabTestMedical",
+		"slogan": "Testando a configuração",
+		"corPrimaria": "#6734eb",
+		"corSecundaria": "#9234eb",
+		"imagemLogo": "https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png",
+		"createdAt": "2023-10-26T23:37:37.579Z",
+		"updatedAt": "2023-10-26T23:37:37.579Z",
+		"deletedAt": null
+	}
+]
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar listar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+#### Listagem de Configurações por id
+
+```http
+  GET /api/configuracoes/:id
+```
+Parâmetro id (numero inteiro valido)  é necessário ser passado como Route Params na rota para listar a configuração especifica por seu id. 
+
+Request JSON exemplo
+```http
+/api/configuracoes/1
+```
+
+Exemplo de resposta:
+
+```http
+
+{
+	"id": 1,
+	"nomeEmpresa": "LabTestMedical",
+	"slogan": "Testando a configuração",
+	"corPrimaria": "#6734eb",
+	"corSecundaria": "#9234eb",
+	"imagemLogo": "https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png",
+	"createdAt": "2023-10-26T23:37:37.579Z",
+	"updatedAt": "2023-10-26T23:37:37.579Z",
+	"deletedAt": null
+}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (OK) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar listar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+
+####  Exclusão de Configurações
+
+```http
+  DELETE /api/configuracoes/:id
+```
+Parâmetro id (numero inteiro valido) é necessário ser passado como Route Params na rota para excluir a configuração.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `int` | **Obrigatório** número inteiro chave primaria|
+
+Request JSON exemplo
+```http
+/api/configuracoes/1
+```
+
+Retorna um
+```http
+	{
+		"message": "Configuração deletada com sucesso"
+	}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (Ok) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar excluir sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
+
+####  Restaurar Configurações
+
+```http
+  POST /api/configuracoes/:id
+```
+Parâmetro id (numero inteiro valido) é necessário ser passado como Route Params na rota para restaurar a configuração deletada.
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `int` | **Obrigatório** número inteiro chave primaria|
+
+Request JSON exemplo
+```http
+/api/configuracoes/1
+```
+
+Retorna um
+```http
+	{
+		"message": "Configuração restaurada com sucesso"
+	}
+```
+
+| Response Status       | Descrição                           |
+|  :--------- | :---------------------------------- |
+|  `200` | (Ok) em caso de sucesso.|
+|  `403` | (Forbidden) em caso de tentar restaurar sem ser usuario do tipo administrador|
+|  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
+|  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
 ### **Log**
 
@@ -646,11 +1317,13 @@ Exemplo de resposta:
 
 ## Melhorias
 
+> Como ponto de melhoria eu André tenho como sugestão a inserção de um sistema de envio de emails para que ao resetar senha, envie um link personalizado para a rota de resetar senha onde o usuário possa inserir uma nova senha, com esse processo acredito que traria um pouco mais de segurança ao sistema.
+
 ## Contatos:
 
 
  <div> <a href="LINKEDIN ALEXANDRE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> ALEXANDRE  </div>
-<div> <a href="LINKEDIN ANDRÉ" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> ANDRÉ</div>   
+<div> <a href="https://www.linkedin.com/in/andr%C3%A9-luiz-amorim-de-souza-435679218/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> ANDRÉ</div>   
 <div> <a href="LINKEDIN DEISE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> DEISE</div>   
 <div> <a href="LINKEDIN MICHELE" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> MICHELE</div>   
 <div> <a href="LINKEDIN RODOLFO" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> RODOLFO</div>   
