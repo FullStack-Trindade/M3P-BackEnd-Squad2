@@ -1364,7 +1364,7 @@ Exemplo de resposta:
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
-####  Busca exame
+####  Busca exames
 
 ```http
   GET /api/exames
@@ -1446,7 +1446,7 @@ Exemplo de resposta:
 ```
 | Response Status       | Descrição                           |
 |  :--------- | :---------------------------------- |
-|  `200` | exames|
+|  `200` | exame|
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
@@ -1503,8 +1503,7 @@ Exemplo de resposta:
 ```http
 
 {
-	"message": "	
-Dados excluídos com sucesso"
+	"message": "Dados excluídos com sucesso"
 }
 
 ```
@@ -1513,7 +1512,7 @@ Dados excluídos com sucesso"
 |  `200` |"Dados excluídos com sucesso"|
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
-### **COnsulta**
+### **Consulta**
 
 ####  Cadastra consulta
 
@@ -1560,7 +1559,7 @@ Exemplo de resposta:
 |  `400` | (Bad Request) em caso de dados inválidos informando mensagem de erro|
 |  `500` | (Bad Request) em caso de erro ao gerar a resposta|
 
-####  Busca consulta
+####  Busca consultas
 
 ```http
   GET /api/consultas
@@ -1693,8 +1692,7 @@ Exemplo de resposta:
 ```http
 
 {
-	"message": "	
-Dados excluídos com sucesso"
+	"message": "Dados excluídos com sucesso"
 }
 
 ```
