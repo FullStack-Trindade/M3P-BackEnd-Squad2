@@ -42,7 +42,8 @@ Abra o seu terminal de preferência e digite:
 
 ```sh
 -npm install
--npm start
+-npm start - sem nodemon ou
+-npm run dev - com nodemon
 ```
 
 \*caso necessário, acesse a documentação disponibilizada para cada tecnologia utilizada no projeto e faça a sua instalação manualmente.
