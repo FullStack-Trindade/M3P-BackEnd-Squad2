@@ -104,7 +104,7 @@ const buscarUsuarios = async (request, response) => {
         .status(404)
         .json({ message: "Não há usuários cadastrados" });
     }
-    response.status(200).json({ usuarios });
+    response.status(200).json( usuarios );
   } catch (error) {
     console.error(error);
     return response.status(500).json({

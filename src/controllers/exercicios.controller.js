@@ -122,7 +122,7 @@ const buscaExercicioPorNome = async (req, res) => {
 		if (!exercicio)
 			return res.status(400).send({ message: "Exercício não encontrado" })
 
-		return res.status(200).send({ exercicio })
+		return res.status(200).send( exercicio )
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({

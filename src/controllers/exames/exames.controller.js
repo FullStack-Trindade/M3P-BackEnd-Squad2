@@ -104,7 +104,7 @@ const buscarExames = async (request, response) => {
     const exames = await Exame.findAll();
     if (!exames)
       return response.status(400).json({ message: "Exame não encontrado" });
-    response.status(200).json({ exames });
+    response.status(200).json( exames );
   } catch (error) {
     console.error(error);
     return response.status(500).json({
@@ -129,7 +129,7 @@ const buscaExame = async (request, response) => {
       return response.status(400).send({ message: "Exame não encontrado" });
     }
 
-    return response.status(200).send({ exame });
+    return response.status(200).send( exame );
   } catch (error) {
     console.error(error);
     return response.status(500).json({
