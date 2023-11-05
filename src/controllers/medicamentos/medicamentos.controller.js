@@ -119,14 +119,14 @@ const atualizarMedicamento = async (request, response) => {
 //         })
 //     }
 // }
-// Função para listar todas as dietas 
+
 const buscarMedicamentos = async (req, res) => {
   try {
     const medicamentos = await Medicamento.findAll();
     return res.status(200).json(medicamentos);
   } catch (error) {
-    console.error("Erro ao listar dietas:", error);
-    return res.status(500).json({ message: "Erro ao listar dietas", error });
+    console.error("Erro ao listar medicamentos:", error);
+    return res.status(500).json({ message: "Erro ao listar medicamentos", error });
   }
 };
 
