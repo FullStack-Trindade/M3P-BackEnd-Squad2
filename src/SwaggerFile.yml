@@ -345,6 +345,27 @@ paths:
  
   /api/exames/{id}:
     description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** exames relacionados a um paciente
+      tags:
+        - Exame
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: exame
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exame' 
+        '400':
+          description: "Exame não encontrado"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
     delete:
       description: Operação **deleta** exame de acordo com o ID
       tags:
@@ -662,7 +683,7 @@ paths:
         - name: nome
           in: path 
           required: true
-          schema: '#/components/schemas/Paciente'
+          schema: 
            type: string
       responses:
         '200':
