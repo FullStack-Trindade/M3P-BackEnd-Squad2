@@ -1,10 +1,8 @@
 const { INTEGER, STRING, BOOLEAN, DataTypes } = require("sequelize");
 const { sequelize } = require("../../database/conexao");
-
 const Paciente = require("../paciente");
 
-const Exame = sequelize.define(
-  "exames",
+const Consulta = sequelize.define("consultas",
   {
     id: {
       type: INTEGER,
@@ -12,50 +10,47 @@ const Exame = sequelize.define(
       autoIncrement: true,
       allowNull: false,
     },
-    nomeExame: {
+    motivoConsulta: {
       type: STRING(64),
       allowNull: false,
     },
-    dataExame: {
+    dataConsulta: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    horaExame: {
+    horaConsulta: {
       type: DataTypes.TIME(6),
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    tipoExame: {
-      type: STRING(32),
-      allowNull: false,
+    descricaoProblema: {
+        type: DataTypes.STRING(1024),
+        allowNull: false,
     },
-    laboratorio: {
-      type: STRING(32),
-      allowNull: false,
+    medicacao: {
+      type: STRING,
     },
-    docurl: STRING,
-    resultados: {
-      type: DataTypes.STRING(1024),
+    dosagem: {
+      type: STRING(256),
       allowNull: false,
     },
     paciente_id: {
       type: INTEGER,
       allowNull: false,
       references: {
-        model: "pacientes",
-        key: "id",
+        model: 'pacientes', 
+        key: 'id', 
       },
-    },
     statusSistema: {
       type: BOOLEAN,
       allowNull: false,
       defaultValue: true,
     },
   },
-  { undescored: true, paranoid: true }
+},{ undescored: true, paranoid: true }
 );
 
-Exame.belongsTo(Paciente, { foreignKey: "paciente_id" });
-Paciente.hasMany(Exame, { foreignKey: "paciente_id" });
+Consulta.belongsTo(Paciente, {foreignKey : 'paciente_id'})
+Paciente.hasMany(Consulta,{foreignKey : 'paciente_id'})
 
-module.exports = Exame;
+module.exports =  Consulta ;

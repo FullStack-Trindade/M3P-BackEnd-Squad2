@@ -1,73 +1,68 @@
 "use strict";
-const { DataTypes } = require("sequelize");
+const { DataTypes, INTEGER, STRING, BOOLEAN, DATE } = require("sequelize");
 
 /** @type {import('sequelize-cli').Migration}  */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("exames", {
+    await queryInterface.createTable("consultas", {
       id: {
-        type: Sequelize.INTEGER,
+        type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      nome_exame: {
-        type: Sequelize.STRING(64),
+      motivo_consulta: {
+        type: STRING(64),
         allowNull: false,
       },
-      data_exame: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+      data_consulta: {
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
-      hora_exame: {
+      hora_consulta: {
         type: DataTypes.TIME(6),
         allowNull: false,
         defaultValue: DataTypes.NOW,
       },
-      tipo_exame: {
-        type: Sequelize.STRING(32),
-        allowNull: false,
-      },
-      laboratorio: {
-        type: Sequelize.STRING(32),
-        allowNull: false,
-      },
-      docurl: {
-        type: Sequelize.STRING(32),
-      },
-      resultados: {
+      descricao_problema: {
         type: DataTypes.STRING(1024),
         allowNull: false,
       },
+      medicacao: {
+        type: STRING,
+      },
+      dosagem: {
+        type: STRING(256),
+        allowNull: false,
+      },
       paciente_id: {
-        type: Sequelize.INTEGER,
+        type: INTEGER,
         allowNull: false,
         references: {
-          model: "pacientes",
-          key: "id",
+          model: 'pacientes', 
+          key: 'id', 
         },
       },
       status_sistema: {
-        type: Sequelize.BOOLEAN,
+        type: BOOLEAN,
         allowNull: false,
         defaultValue: true,
       },
       created_at: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: false,
       },
       updated_at: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: false,
       },
       deleted_at: {
-        type: Sequelize.DATE,
+        type: DATE,
       },
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("exames");
+    await queryInterface.dropTable("consultas");
   },
 };

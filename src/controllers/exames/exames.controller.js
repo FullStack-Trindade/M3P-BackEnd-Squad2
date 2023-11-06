@@ -130,6 +130,7 @@ const buscaExame = async (request, response) => {
     }
 
     return response.status(200).send( exame );
+
   } catch (error) {
     console.error(error);
     return response.status(500).json({
@@ -148,6 +149,7 @@ const buscaExameId = async (request, response) => {
     }  
 
     return response.status(200).send( exame );
+
   } catch (error) {
     console.error(error);
     return response.status(500).json({

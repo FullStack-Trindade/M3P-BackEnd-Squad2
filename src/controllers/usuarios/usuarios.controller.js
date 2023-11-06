@@ -1,6 +1,7 @@
 const { sign } = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { Usuario } = require("../../models/Usuario");
+const { criarLog } = require('../logs/log.controller');
 
 const criarUsuario = async (request, response) => {
   try {
@@ -33,6 +34,9 @@ const criarUsuario = async (request, response) => {
       tipo,
       statusSistema,
     });
+
+    await criarLog(request, `criou o usuário ${usuario.nomeCompleto} com permissão ${usuario.tipo}`);
+
     response.status(201).json(usuario);
   } catch (error) {
     console.error(error);
@@ -72,6 +76,9 @@ const atualizarUsuario = async (request, response) => {
     };
 
     await Usuario.update(data, { where: { usuario_id: id } });
+
+    await criarLog(request, `atualizou o usuário ${usuarioExistente.nomeCompleto}`);
+
     response.status(200).json({ message: "Usuário atualizado com sucesso" });
   } catch (error) {
     console.error(error);
@@ -97,7 +104,33 @@ const buscarUsuarios = async (request, response) => {
         .status(404)
         .json({ message: "Não há usuários cadastrados" });
     }
-    response.status(200).json({ usuarios });
+    response.status(200).json( usuarios );
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({
+      message: "Não foi possível processar a solicitação",
+    });
+  }
+};
+
+const buscarUsuarioId = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const payload = request.usuario;
+
+    if (payload.tipo !== "ADMINISTRADOR") {
+      return response.status(403).json({
+        message: "Usuário não tem permissões para acessar este recurso",
+      });
+    }
+
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+      return response
+        .status(404)
+        .json({ message: "Não foi possivel encontrar usuario" });
+    }
+    response.status(200).json(usuario);
   } catch (error) {
     console.error(error);
     return response.status(500).json({
@@ -132,6 +165,9 @@ const deletarUsuario = async (request, response) => {
     }
 
     await Usuario.destroy({ where: { usuario_id: id } });
+
+    await criarLog(request, `deletou o usuário ${usuarioExistente.nomeCompleto}`);
+
     response.status(200).json({ message: "Usuário deletado com sucesso" });
   } catch (error) {
     console.error(error);
@@ -180,7 +216,7 @@ const loginUsuario = async (request, response) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+    return response.status(500).json({
       message: "Erro ao realizar o login do usuário",
     });
   }
@@ -213,6 +249,7 @@ const resetarSenha = async (request, response) => {
       { where: { email }, individualHooks: true }
     );
 
+
     return response
       .status(200)
       .json({ message: "Senha atualizada com sucesso" });
@@ -228,6 +265,7 @@ module.exports = {
   criarUsuario,
   atualizarUsuario,
   buscarUsuarios,
+  buscarUsuarioId,
   deletarUsuario,
   loginUsuario,
   resetarSenha,

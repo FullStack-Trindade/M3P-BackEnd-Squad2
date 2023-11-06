@@ -22,3 +22,4 @@ exameRoutes.delete("/exames/:id", validarToken, deleteExame);
 
 module.exports = { exameRoutes };
 
+

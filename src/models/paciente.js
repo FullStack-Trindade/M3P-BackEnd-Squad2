@@ -3,8 +3,9 @@ const DB_CONFIG = require("../config/database");
 const conexao = new Sequelize(DB_CONFIG);
 
 const Endereco = require("./endereco");
+const Exercicio = require('./exercicios.model')
 
-const Paciente = conexao.define("paciente", {
+const Paciente = conexao.define("pacientes", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -18,7 +19,7 @@ const Paciente = conexao.define("paciente", {
     },
   },
   genero: {
-    type: Sequelize.ENUM("MASCULINO", "FEMININO", "OUTRO"),
+    type: Sequelize.STRING,
     allowNull: false,
   },
   data_nascimento: {
@@ -38,7 +39,7 @@ const Paciente = conexao.define("paciente", {
     },
   },
   estado_civil: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM("SOLTEIRO","CASADO", "DIVORCIADO", "VIUVO"),
     allowNull: false,
   },
   telefone: {
@@ -91,16 +92,6 @@ const Paciente = conexao.define("paciente", {
   endereco_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
-  },
-  created_at: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-  },
-  updated_at: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
   },
 });
 
