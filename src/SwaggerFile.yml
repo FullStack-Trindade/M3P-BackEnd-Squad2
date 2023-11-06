@@ -22,7 +22,7 @@ paths:
               $ref: '#/components/schemas/Usuario'
       responses:
         '201':
-          description: Usuario 
+          description: usuario 
           content:
             application/json:
               schema:
@@ -57,6 +57,31 @@ paths:
    
   /api/usuarios/{id}:
     description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** um usuario específico
+      tags:
+        - Usuario
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario' 
+        '400':
+          description: mensagem de validação do YUP       
+        '403':
+          description: "Usuário não tem permissões para acessar este recurso"
+        '404':
+          description: "Não há usuários cadastrados"
+        '5XX':
+          description: "Não foi possível processar a solicitação"
     delete:
       description: Operação **deleta** um usuário de acordo com o ID
       tags:
@@ -97,10 +122,6 @@ paths:
       responses:
         '200':
           description: "Usuario atualizado com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'
         '400':
           description: mensagem de validação do YUP
         '401':
@@ -111,36 +132,53 @@ paths:
           description: "Usuario não foi encontrado"
         '5XX':
           description: "Não foi possível processar a solicitação"
-    patch:
-      description: Operação **reseta a senha** de um usuario 
+  
+  /api/usuarios/login: 
+    description: Endpont para requisições sem parametros no path
+    post:
+      description: Operação **faz o login** do usuario 
       tags:
         - Usuario
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-           type: integer
       requestBody:
-        description: novos dados
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'
+            schema:
+              $ref: '#/components/schemas/Usuario'
       responses:
         '200':
-          description: "Senha atualizada com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'
+          description: "Usuario ${usuario.email} logado com sucesso" 
+        '400':
+          description: "Os dados do formulário são obrigatório ou Código para resetar senha inválido"
         '401':
-          description: "Os dados do formulário são obrigatórios ou Código para resetar senha inválido"
+          description: "Email e/ou senha invalidos"
         '404':
-          description: "Usuario não encontrado"
+          description: "Usuário não encontrado"
         '5XX':
-          description: "Ocorreu um erro ao tentar redefinir a senha"
- 
+          description: "Erro ao realizar o login do usuário"  
+
+  /api/usuarios/resetarsenha: 
+    description: Endpont para requisições sem parametros no path
+    patch:
+      description: Operação **faz o login** do usuario 
+      tags:
+        - Usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: "Senha atualizada com sucesso" 
+        '400':
+          description: "Os dados do formulário são obrigatório ou Código para resetar senha inválido"
+        '401':
+          description: "Email e/ou senha invalidos"
+        '404':
+          description: "Usuário não encontrado"
+        '5XX':
+          description: "Ocorreu um erro ao tentar redefinir a senha"  
+
   /api/pacientes: 
     description: Endpont para requisições sem parametros no path
     post:
@@ -171,7 +209,7 @@ paths:
         - Paciente
       responses:
         '200':
-          description: paciente
+          description: pacientes
           content:
             application/json:
               schema:
@@ -193,7 +231,7 @@ paths:
            type: integer
       responses:
         '200':
-          description: Paciente
+          description: paciente
           content:
             application/json:
               schema:
@@ -238,10 +276,6 @@ paths:
       responses:
         '200':
           description: "Paciente atualizado com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Paciente'
         '400':
           description: "Não é permitido atualizar CPF ou RG, Paciente não encontrado ou mensagem de validação do YUP"
         '5XX':
@@ -285,6 +319,30 @@ paths:
         '5XX':
           description: "Não foi possivel processar a solicitação"
    
+  /api/exames/{nome}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** exame relacionadas a um paciente
+      tags:
+        - Exame
+      parameters:
+        - name: nome
+          in: path 
+          required: true
+          schema:
+           type: string
+      responses:
+        '200':
+          description: exame
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exame' 
+        '400':
+          description: "Exame não encontrado || Paciente não encontrado"  
+        '5XX':
+          description: "Não foi possível processar a solicitação"
+ 
   /api/exames/{id}:
     description: Endpont para requisições com parametros no path
     get:
@@ -344,10 +402,6 @@ paths:
       responses:
         '200':
           description: "Exame atualizado com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exame'
         '400':
           description: "Exame não foi encontrado ou mensagem de erro validação YUP " 
         '5XX':
@@ -450,10 +504,6 @@ paths:
       responses:
         '200':
           description: "Dados de consulta atualizados com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Consulta'
         '400':
           description: "Consulta não foi encontrado ou mensagem de erro validação YUP"
         '5XX':
@@ -495,18 +545,18 @@ paths:
         '5XX':
           description: "Erro ao listar dietas"
    
-  /api/dietas/{id}:
+  /api/dietas/{nomePaciente}:
     description: Endpont para requisições com parametros no path
     get:
       description: Operação **retorna** dietas relacionadas a um paciente
       tags:
         - Dieta
       parameters:
-        - name: id
+        - name: nomePaciente
           in: path 
           required: true
           schema:
-           type: integer
+           type: string
       responses:
         '200':
           description: dietas
@@ -518,6 +568,30 @@ paths:
           description: "O paciente não tem nenhuma dieta || Paciente não encontrado"  
         '5XX':
           description: "Erro ao listar dietas de um paciente"
+ 
+  /api/dietas/{id}:
+    description: Endpont para requisições com parametros no path
+    get:
+      description: Operação **retorna** dietas relacionadas ao seu Id
+      tags:
+        - Dieta
+      parameters:
+        - name: id
+          in: path 
+          required: true
+          schema:
+           type: integer
+      responses:
+        '200':
+          description: dieta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dieta' 
+        '404':
+          description: "Dieta não encontrada"  
+        '5XX':
+          description: "Erro ao buscar dieta por ID"
     delete:
       description: Operação **deleta** dieta de acordo com o ID
       tags:
@@ -554,10 +628,6 @@ paths:
       responses:
         '201':
           description: "Dieta atualizada com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dieta'
         '400':
           description: "Dieta não encontrada ou mensagem de validação do YUP"
         '5XX':
@@ -598,34 +668,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exercicio' 
+        '400':
+          description: "Exercício não encontrado"
         '5XX':
           description: "Não foi possível processar a solicitação"
-   
-  /api/exercicios/{id}:
+
+  /api/exercicios/{nome}:
     description: Endpont para requisições com parametros no path
     get:
-      description: Operação **retorna** exercicios relacionadas a um paciente
+      description: Operação **retorna** exercicio relacionadas a um paciente
       tags:
         - Exercicio
       parameters:
-        - name: id
+        - name: nome
           in: path 
           required: true
-          schema:
-           type: integer
+          schema: 
+           type: string
       responses:
         '200':
-          description: pacienteData || allData 
+          description: exercicio
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Exercicio' 
         '400':
-          description: mensagem de validação do YUP
+          description: "Exercicio não encontrado"  
         '404':
-          description: "Paciente não encontrado"   
+          description: "Paciente não encontrado"
         '5XX':
           description: "Não foi possível processar a solicitação"
+ 
+  /api/exercicios/{id}:
+    description: Endpont para requisições com parametros no path
     delete:
       description: Operação **deleta** Exercicio de acordo com o ID
       tags:
@@ -638,7 +713,7 @@ paths:
            type: integer
       responses:
         '202':
-          description: ""
+          description: "Dados excluídos com sucesso"
         '404':
           description: "ID não encontrado"
         '5XX':
@@ -662,14 +737,10 @@ paths:
       responses:
         '200':
           description: "Exercicio atualizado com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Exercicio'
         '400':
           description: mensagem de validação do YUP
         '404':
-          description: "Paciente não encontrado"
+          description: "Exercício não encontrado"
         '5XX':
           description: "Não foi possível processar a solicitação"
  
@@ -706,36 +777,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Medicamento' 
-        '400': 
-          description: "Medicamento não encontrado"
         '5XX':
           description: "Não foi possível processar a solicitação"
-   
-  /api/medicamentos/{id}:
+
+  /api/medicamentos/{nome}:
     description: Endpont para requisições com parametros no path
     get:
-      description: Operação **retorna** medicamentos relacionadas a um paciente
+      description: Operação **retorna** medicamento relacionadas a um paciente
       tags:
         - Medicamento
       parameters:
-        - name: id
+        - name: nome
           in: path 
           required: true
           schema:
-           type: integer
+           type: string
       responses:
         '200':
-          description: medicamentos
+          description: medicamento
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Medicamento' 
         '400':
-          description: "Medicamento não encontrado"
+          description: "medicamento não encontrado"  
         '404':
-          description: "Paciente não encontrado"   
+          description: "Paciente não encontrado"
         '5XX':
           description: "Não foi possível processar a solicitação"
+   
+  /api/medicamentos/{id}:
+    description: Endpont para requisições com parametros no path   
     delete:
       description: Operação **deleta** medicamento de acordo com o ID
       tags:
@@ -772,52 +844,8 @@ paths:
       responses:
         '200':
           description: "Medicamento atualizado com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Medicamento'
         '400':
           description: "Medicamento não encontrado ou mensagem de validação do YUP"
-        '5XX':
-          description: "Não foi possível processar a solicitação"
- 
-  /api/prontuario: 
-    description: Endpont para requisições sem parametros no path
-    get:
-      description: Operação **retorna** lista com prontuarios cadastrados
-      tags:
-        - Prontuario
-      responses:
-        '200':
-          description: prontuarios
-         # content:
-          #  application/json:
-          #    schema:
-          #      $ref: '#/components/schemas/Prontuario' 
-        '5XX':
-          description: "Erro ao listar registros de prontuario"
-  /api/prontuario/{id}:  
-    get:
-      description: Operação **retorna** prontuarios relacionadas a um paciente
-      tags:
-        - Prontuário
-      parameters:
-        - name: id
-          in: path 
-          required: true
-          schema:
-           type: integer
-      responses:
-        '200':
-          description: prontuarios
-         # content:
-          #  application/json:
-          #    schema:
-          #      $ref: '#/components/schemas/Prontuário' 
-        '400':
-          description: "Prontuário não encontrado"
-        '404':
-          description: "Paciente não encontrado"   
         '5XX':
           description: "Não foi possível processar a solicitação"
  
@@ -920,10 +948,6 @@ paths:
       responses:
         '200':
           description: "Configuração atualizada com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Configuracoes'
         '403':
           description: "Usuário não tem permissões para acessar este recurso"
         '404':
@@ -948,10 +972,6 @@ paths:
       responses:
         '200':
           description: "Configuração restaurada com sucesso"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Configuracoes'
         '403':
           description: "Usuário não tem permissões para acessar este recurso"
         '404':
