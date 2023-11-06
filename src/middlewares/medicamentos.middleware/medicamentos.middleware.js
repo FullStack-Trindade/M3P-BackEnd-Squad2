@@ -50,7 +50,7 @@ const schema = yup.object().shape({
     .min(10, "As observações devem ter pelo menos 10 caracteres")
     .max(1000, "As observações não podem ter mais de 1000 caracteres")
     .required("As observações são obrigatórias"),
-  statusDoSistema: yup.boolean().required("O estado do sistema é obrigatório"),
+  statusDoSistema: yup.boolean().required("O estado do sistema é obrigatório").default(true),
 });
 
 // const data = {

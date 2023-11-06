@@ -19,12 +19,12 @@ const Usuario = sequelize.define(
       allowNull: false,
     },
     cpf: {
-      type: STRING(11),
+      type: STRING,
       allowNull: false,
       unique: true,
     },
     telefone: {
-      type: STRING(12),
+      type: STRING,
       allowNull: false,
     },
     email: {
