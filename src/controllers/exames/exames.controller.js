@@ -130,6 +130,26 @@ const buscaExame = async (request, response) => {
     }
 
     return response.status(200).send( exame );
+
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({
+      message: "Não foi possível processar a solicitação",
+      error,
+    });
+  }
+};
+
+const buscaExameId = async (request, response) => {
+  try {
+    const id = request.param.id
+    const exame = await Exame.findByPk(id)
+    if (!exame) {
+      return response.status(404).send({ message: "Exame não encontrado" });
+    }  
+
+    return response.status(200).send( exame );
+
   } catch (error) {
     console.error(error);
     return response.status(500).json({
@@ -169,5 +189,6 @@ module.exports = {
   atualizarExame,
   buscarExames,
   buscaExame,
+  buscaExameId,
   deleteExame,
 };
